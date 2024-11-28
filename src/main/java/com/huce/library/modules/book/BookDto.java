@@ -1,6 +1,7 @@
 package com.huce.library.modules.book;
 
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 
 @Data
 public class BookDto {
@@ -10,7 +11,7 @@ public class BookDto {
     private Integer inStock;
     private Long authorId;
 
-    public BookDto(Book book) {
+    public BookDto(@NotNull Book book) {
         setId(book.getId());
         setTitle(book.getTitle());
         setDescription(book.getDescription());

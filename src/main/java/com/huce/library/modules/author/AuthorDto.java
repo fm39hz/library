@@ -1,6 +1,7 @@
 package com.huce.library.modules.author;
 
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 
 @Data
 public class AuthorDto {
@@ -8,7 +9,7 @@ public class AuthorDto {
     private String name;
     private Integer age;
 
-    public AuthorDto(Author author) {
+    public AuthorDto(@NotNull Author author) {
         setId(author.getId());
         setName(author.getName());
         setAge(author.getAge());
