@@ -20,7 +20,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping
+    @PostMapping("/")
     @RolesAllowed(Roles.USER)
     public ResponseEntity<Book> createBook(@RequestBody Book book) {
         Book savedBook = bookService.saveBook(book);
