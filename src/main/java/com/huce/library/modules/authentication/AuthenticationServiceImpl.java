@@ -4,43 +4,39 @@ import com.huce.library.modules.jwt.JwtTokenProvider;
 import com.huce.library.modules.user.CustomUserDetails;
 import com.huce.library.modules.user.UserService;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
-    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     private final JwtTokenProvider tokenProvider;
 
     private final UserService userService;
 
-    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider, UserService userService) {
-        this.authenticationManager = authenticationManager;
+    public AuthenticationServiceImpl(JwtTokenProvider tokenProvider, UserService userService, PasswordEncoder passwordEncoder) {
         this.tokenProvider = tokenProvider;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public ResponseEntity<LoginResponseDto> authenticate(LoginRequestDto loginRequestDto) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequestDto.getUsername(),
-                        loginRequestDto.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String name = authentication.getName();
-        CustomUserDetails user = (CustomUserDetails) userService.loadUserByUsername(name);
-        String token = tokenProvider.generateToken(user);
-        return ResponseEntity.ok().header(
-                HttpHeaders.AUTHORIZATION,
-                token
-        ).body(new LoginResponseDto(token));
+        CustomUserDetails user = (CustomUserDetails) userService.loadUserByUsername(loginRequestDto.getUsername());
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        var a = passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword());
+        if (a) {
+            String token = tokenProvider.generateToken(user);
+            return ResponseEntity.ok().header(
+                    HttpHeaders.AUTHORIZATION,
+                    token
+            ).body(new LoginResponseDto(token));
+        }
+        return ResponseEntity.notFound().build();
     }
 }
