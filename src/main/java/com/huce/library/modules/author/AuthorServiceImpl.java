@@ -21,7 +21,10 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author getAuthorById(Long id) {
-        return authorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + id));
+        if (authorRepository.findById(id).isPresent()) {
+            return authorRepository.findById(id).get();
+        }
+        throw new ResourceNotFoundException("Author Not Found");
     }
 
     @Override
@@ -31,20 +34,16 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author updateAuthor(Long id, Author authorDetails) {
-        Author author = authorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + id));
-
+        Author author = getAuthorById(id);
         author.setName(authorDetails.getName());
         author.setAge(authorDetails.getAge());
         author.setBooks(authorDetails.getBooks());
-
         return authorRepository.save(author);
     }
 
     @Override
     public void deleteAuthor(Long id) {
-        Author author = authorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + id));
+        Author author = getAuthorById(id);
         authorRepository.delete(author);
     }
 }

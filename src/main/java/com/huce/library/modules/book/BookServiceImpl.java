@@ -29,25 +29,24 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getBookById(Long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book Not Found"));
+        if (bookRepository.findById(id).isPresent()) {
+            return bookRepository.findById(id).get();
+        }
+        throw new ResourceNotFoundException("Book Not Found");
     }
 
     @Override
     public Book updateBook(Long id, Book bookDetails) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Genre not found with id: " + id));
-
+        Book book = getBookById(id);
         book.setTitle(bookDetails.getTitle());
         book.setAuthor(bookDetails.getAuthor());
         book.setInStock(bookDetails.getInStock());
-
         return bookRepository.save(book);
     }
 
     @Override
     public void deleteBook(Long id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Genre not found with id: " + id));
+        Book book = getBookById(id);
         bookRepository.delete(book);
     }
 }
