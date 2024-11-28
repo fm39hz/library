@@ -1,7 +1,6 @@
 package com.huce.library.modules.author;
 
 import com.huce.library.exception.ResourceNotFoundException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,17 +20,17 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public ResponseEntity<Author> getAuthorById(Long id) {
-        return ResponseEntity.ok().body(authorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + id)));
+    public Author getAuthorById(Long id) {
+        return authorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + id));
     }
 
     @Override
-    public ResponseEntity<List<Author>> getAllAuthors() {
-        return ResponseEntity.ok().body(authorRepository.findAll());
+    public List<Author> getAllAuthors() {
+        return authorRepository.findAll();
     }
 
     @Override
-    public ResponseEntity<Author> updateAuthor(Long id, Author authorDetails) {
+    public Author updateAuthor(Long id, Author authorDetails) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + id));
 
@@ -39,14 +38,13 @@ public class AuthorServiceImpl implements AuthorService {
         author.setAge(authorDetails.getAge());
         author.setBooks(authorDetails.getBooks());
 
-        return ResponseEntity.ok().body(authorRepository.save(author));
+        return authorRepository.save(author);
     }
 
     @Override
-    public ResponseEntity<Void> deleteAuthor(Long id) {
+    public void deleteAuthor(Long id) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + id));
         authorRepository.delete(author);
-        return ResponseEntity.noContent().build();
     }
 }

@@ -3,11 +3,9 @@ package com.huce.library.modules.book;
 import com.huce.library.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -25,13 +23,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseEntity<List<Book>> getAllBooks() {
-        return ResponseEntity.ok().body(bookRepository.findAll());
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
 
     @Override
-    public Optional<Book> getBookById(Long id) {
-        return bookRepository.findById(id);
+    public Book getBookById(Long id) {
+        return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book Not Found"));
     }
 
     @Override
