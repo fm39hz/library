@@ -1,17 +1,17 @@
 package com.huce.library.modules.authentication;
 
+import com.huce.library.modules.user.UserService;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 public class CustomAuthenticationManager implements AuthenticationManager {
 
-    private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
-    public CustomAuthenticationManager(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public CustomAuthenticationManager(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
         @Override
         public Object getPrincipal() {
-            return userDetailsService.loadUserByUsername(authentication.getName());
+            return userService.loadUserByUsername(authentication.getName());
         }
     }
 }
