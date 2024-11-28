@@ -1,14 +1,12 @@
 package com.huce.library.modules.book;
 
 import com.huce.library.exception.ResourceNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Transactional
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
 
