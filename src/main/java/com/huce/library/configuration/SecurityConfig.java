@@ -55,6 +55,8 @@ public class SecurityConfig {
                         .requestMatchers("/error/**").permitAll()
                         .requestMatchers("api/v1/book/**").hasAuthority(Roles.USER)
                         .requestMatchers("api/v1/book/").hasAuthority(Roles.USER)
+                        .requestMatchers("api/v1/author/**").hasAuthority(Roles.USER)
+                        .requestMatchers("api/v1/author/").hasAuthority(Roles.USER)
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )

@@ -17,10 +17,9 @@ public class Author {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = true)
+    @Column()
     private Integer age;
 
-    @JoinColumn
-    @OneToMany
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> books;
 }

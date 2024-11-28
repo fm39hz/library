@@ -40,7 +40,7 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() -> new ResourceNotFoundException("Genre not found with id: " + id));
 
         book.setTitle(bookDetails.getTitle());
-        book.setAuthorId(bookDetails.getAuthorId());
+        book.setAuthor(bookDetails.getAuthor());
         book.setInStock(bookDetails.getInStock());
 
         return bookRepository.save(book);

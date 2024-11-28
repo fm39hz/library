@@ -1,5 +1,6 @@
 package com.huce.library.modules.book;
 
+import com.huce.library.modules.author.Author;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,8 +19,9 @@ public class Book {
     private String description;
 
     @Column(nullable = false)
-    private Long authorId;
-
-    @Column(nullable = false)
     private Integer inStock;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
 }
