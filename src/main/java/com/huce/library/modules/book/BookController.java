@@ -21,13 +21,6 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping("/")
-    @RolesAllowed(Roles.USER)
-    public ResponseEntity<Book> createBook(@RequestBody Book book) {
-        Book savedBook = bookService.saveBook(book);
-        return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
-    }
-
     @GetMapping("/")
     @RolesAllowed(Roles.USER)
     public ResponseEntity<List<BookDto>> getAllBooks() {
@@ -37,16 +30,26 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
+    @RolesAllowed(Roles.USER)
     public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
         return ResponseEntity.ok().body(new BookDto(bookService.getBookById(id)));
     }
 
+    @PostMapping("/")
+    @RolesAllowed(Roles.ADMIN)
+    public ResponseEntity<Book> createBook(@RequestBody Book book) {
+        Book savedBook = bookService.saveBook(book);
+        return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
+    }
+
     @PutMapping("/{id}")
+    @RolesAllowed(Roles.ADMIN)
     public ResponseEntity<BookDto> updateBook(@PathVariable Long id, @RequestBody Book book) {
         return ResponseEntity.ok().body(new BookDto(bookService.updateBook(id, book)));
     }
 
     @DeleteMapping("/{id}")
+    @RolesAllowed(Roles.ADMIN)
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
