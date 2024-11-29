@@ -1,8 +1,11 @@
 package com.huce.library.modules.book;
 
 import com.huce.library.modules.author.Author;
+import com.huce.library.modules.subscription.Subscription;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -23,6 +26,9 @@ public class Book {
 
     @Column()
     private String image;
+
+    @ManyToMany()
+    private List<Subscription> rented;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)

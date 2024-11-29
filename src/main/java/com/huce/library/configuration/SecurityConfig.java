@@ -55,6 +55,8 @@ public class SecurityConfig {
                         .requestMatchers("/error/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/book/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/author/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/subscription/**").permitAll()
+                        .requestMatchers("api/v1/subscription/**").hasAuthority(Roles.USER)
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .anyRequest().hasAuthority(Roles.ADMIN)
                 )

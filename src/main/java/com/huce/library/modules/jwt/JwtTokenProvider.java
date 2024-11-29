@@ -55,6 +55,14 @@ public class JwtTokenProvider {
         return validateToken(refreshToken, JWT_REFRESH_SECRET);
     }
 
+    public String extractTokenFromHeader(String authorizationHeader) {
+        String token = null;
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            token = authorizationHeader.substring(7);
+        }
+        return token;
+    }
+
     private boolean validateToken(String token, String secret) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);

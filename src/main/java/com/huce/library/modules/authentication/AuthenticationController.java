@@ -1,16 +1,23 @@
 package com.huce.library.modules.authentication;
 
+import com.huce.library.modules.user.UserRequestDto;
+import com.huce.library.modules.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
-    public AuthenticationController(AuthenticationService authenticationService) {
+    public AuthenticationController(AuthenticationService authenticationService, PasswordEncoder passwordEncoder, UserService userService) {
         this.authenticationService = authenticationService;
+        this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -29,5 +36,10 @@ public class AuthenticationController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         return ResponseEntity.ok().body(responseDto);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserRequestDto> createUser(@RequestBody UserRequestDto user) {
+        return ResponseEntity.ok().body(new UserRequestDto(userService.createUser(user, passwordEncoder.encode(user.getPassword()))));
     }
 }

@@ -1,5 +1,6 @@
 package com.huce.library.modules.user;
 
+import com.huce.library.modules.subscription.Subscription;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,5 +24,9 @@ public class User {
 
     @Column(nullable = false)
     private String role;
+
+    @JoinColumn(name = "subscription_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    private Subscription subscription;
 }
 

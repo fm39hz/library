@@ -5,4 +5,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
     UserDetails loadUserById(long id);
+
+    User createUser(UserRequestDto user, String encodedPassword);
 }
