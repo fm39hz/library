@@ -22,8 +22,8 @@ public class AuthenticationController {
         return ResponseEntity.ok().body(responseDto);
     }
 
-    @PostMapping("/refresh")
-    public ResponseEntity<LoginResponseDto> authenticateUser(@RequestParam String refreshToken) {
+    @PostMapping("/refresh/{refreshToken}")
+    public ResponseEntity<LoginResponseDto> authenticateUser(@PathVariable String refreshToken) {
         var responseDto = authenticationService.refreshToken(refreshToken);
         if (responseDto == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
