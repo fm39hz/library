@@ -21,6 +21,9 @@ public class Book {
     @Column(nullable = false)
     private Integer inStock;
 
+    @Column(nullable = false)
+    private String image;
+
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
