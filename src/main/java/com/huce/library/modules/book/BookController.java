@@ -37,14 +37,14 @@ public class BookController {
 
     @PostMapping("/")
     @RolesAllowed(Roles.ADMIN)
-    public ResponseEntity<Book> createBook(@RequestBody Book book) {
+    public ResponseEntity<BookDto> createBook(@RequestBody BookDto book) {
         Book savedBook = bookService.saveBook(book);
-        return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
+        return new ResponseEntity<>(new BookDto(savedBook), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @RolesAllowed(Roles.ADMIN)
-    public ResponseEntity<BookDto> updateBook(@PathVariable Long id, @RequestBody Book book) {
+    public ResponseEntity<BookDto> updateBook(@PathVariable Long id, @RequestBody BookDto book) {
         return ResponseEntity.ok().body(new BookDto(bookService.updateBook(id, book)));
     }
 

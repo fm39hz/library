@@ -21,7 +21,7 @@ public class Book {
     @Column(nullable = false)
     private Integer inStock;
 
-    @Column(nullable = false)
+    @Column()
     private String image;
 
     @ManyToOne

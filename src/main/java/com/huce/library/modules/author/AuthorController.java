@@ -45,14 +45,14 @@ public class AuthorController {
 
     @PostMapping("/")
     @RolesAllowed(Roles.ADMIN)
-    public ResponseEntity<AuthorDto> createBook(@RequestBody Author author) {
+    public ResponseEntity<AuthorDto> createBook(@RequestBody AuthorDto author) {
         Author savedAuthor = authorService.saveAuthor(author);
         return new ResponseEntity<>(new AuthorDto(savedAuthor), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @RolesAllowed(Roles.ADMIN)
-    public ResponseEntity<AuthorDto> updateAuthor(@PathVariable Long id, @RequestBody Author author) {
+    public ResponseEntity<AuthorDto> updateAuthor(@PathVariable Long id, @RequestBody AuthorDto author) {
         return ResponseEntity.ok().body(new AuthorDto(authorService.updateAuthor(id, author)));
     }
 
