@@ -53,12 +53,10 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/error/**").permitAll()
-                        .requestMatchers("api/v1/book/**").hasAuthority(Roles.USER)
-                        .requestMatchers("api/v1/book/").hasAuthority(Roles.USER)
-                        .requestMatchers("api/v1/author/**").hasAuthority(Roles.USER)
-                        .requestMatchers("api/v1/author/").hasAuthority(Roles.USER)
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.GET, "/book/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/author/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                        .anyRequest().hasAuthority(Roles.ADMIN)
                 )
                 .httpBasic(withDefaults())
                 .addFilterBefore(new JwtAuthenticationFilter(userService, jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
