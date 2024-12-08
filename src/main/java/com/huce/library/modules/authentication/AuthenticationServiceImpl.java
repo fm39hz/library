@@ -2,6 +2,7 @@ package com.huce.library.modules.authentication;
 
 import com.huce.library.modules.jwt.JwtTokenProvider;
 import com.huce.library.modules.user.CustomUserDetails;
+import com.huce.library.modules.user.User;
 import com.huce.library.modules.user.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return new LoginResponseDto(token, _refreshToken, expiresIn, refreshExpiresIn);
         }
         return null;
+    }
+
+    @Override
+    public User getUserByToken(String header) {
+        String token = tokenProvider.extractTokenFromHeader(header);
+        if (token == null) {
+            return null;
+        }
+        return ((CustomUserDetails) userService.loadUserById(tokenProvider.getUserIdFromToken(token, true))).getUser();
     }
 }

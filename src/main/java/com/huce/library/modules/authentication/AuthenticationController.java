@@ -1,7 +1,7 @@
 package com.huce.library.modules.authentication;
 
-import com.huce.library.modules.user.UserRequestDto;
-import com.huce.library.modules.user.UserService;
+import com.huce.library.modules.subscription.SubscriptionResponseDto;
+import com.huce.library.modules.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,5 +41,11 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<UserRequestDto> createUser(@RequestBody UserRequestDto user) {
         return ResponseEntity.ok().body(new UserRequestDto(userService.createUser(user, passwordEncoder.encode(user.getPassword()))));
+    }
+    @GetMapping("/user")
+    public ResponseEntity<UserResponseDto> updateSubscription(
+            @RequestHeader("Authorization") String authorizationHeader
+            ) {
+        return ResponseEntity.ok().body(new UserResponseDto(authenticationService.getUserByToken(authorizationHeader)));
     }
 }
