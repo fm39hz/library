@@ -11,5 +11,7 @@ public interface SubscriptionService {
 
     Subscription updateSubscription(Long id, SubscriptionRequestDto subscriptionDto);
 
+    Date rentBook(Long bookId, Long userId, Integer period);
+
     void deleteSubscription(Long id);
 }

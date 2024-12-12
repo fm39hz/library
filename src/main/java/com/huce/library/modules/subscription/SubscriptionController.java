@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/subscription")
 public class SubscriptionController {
@@ -63,5 +65,19 @@ public class SubscriptionController {
         CustomUserDetails user = (CustomUserDetails) userService.loadUserById(jwtTokenProvider.getUserIdFromToken(token, true));
         subscriptionService.deleteSubscription(user.getUser().getSubscription().getId());
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/rent")
+    public ResponseEntity<Date> rentBook(@RequestBody RentRequestDto rentRequestDto, @RequestHeader("Authorization") String authorizationHeader) {
+        String token = jwtTokenProvider.extractTokenFromHeader(authorizationHeader);
+        if (token == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        CustomUserDetails user = (CustomUserDetails) userService.loadUserById(jwtTokenProvider.getUserIdFromToken(token, true));
+        Date returnDate = subscriptionService.rentBook(rentRequestDto.getBookId(), user.getUser().getId(), rentRequestDto.getPeriod());
+        if (returnDate == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok().body(returnDate);
     }
 }

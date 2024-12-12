@@ -34,6 +34,9 @@ public class Subscription {
     @Column(nullable = false)
     private Integer period = 1;
 
+    @Column(nullable = false)
+    private Integer rentLimit = 5;
+
     @ManyToMany(mappedBy = "rented")
     private List<Book> rentedBooks;
 

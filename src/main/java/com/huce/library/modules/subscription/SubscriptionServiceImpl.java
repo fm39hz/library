@@ -1,6 +1,10 @@
 package com.huce.library.modules.subscription;
 
 import com.huce.library.exception.ResourceNotFoundException;
+import com.huce.library.modules.book.Book;
+import com.huce.library.modules.book.BookDto;
+import com.huce.library.modules.book.BookRepository;
+import com.huce.library.modules.book.BookService;
 import com.huce.library.modules.user.User;
 import com.huce.library.modules.user.UserRepository;
 import org.springframework.stereotype.Service;
@@ -13,10 +17,12 @@ import java.util.Objects;
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
+    private final BookService bookService;
     private final UserRepository userRepository;
 
-    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, UserRepository userRepository) {
+    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, BookService bookService, UserRepository userRepository) {
         this.subscriptionRepository = subscriptionRepository;
+        this.bookService = bookService;
         this.userRepository = userRepository;
     }
 
@@ -83,6 +89,24 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription.setPeriod(subscriptionDto.getPeriod());
         subscription.setStatus(subscriptionDto.getStatus());
         return subscriptionRepository.save(calculateEndDate(subscription));
+    }
+
+    @Override
+    public Date rentBook(Long bookId, Long userId, Integer period) {
+        if (userRepository.findById(userId).isEmpty()) {
+            return null;
+        }
+        User user = userRepository.findById(userId).get();
+        Book book = bookService.getBookById(bookId);
+        Subscription subscription = user.getSubscription();
+        if (book.getInStock() > 0 || subscription.getRentedBooks().size() >= subscription.getRentLimit()) {
+            book.setInStock(book.getInStock() - 1);
+            subscription.getRentedBooks().add(book);
+            bookService.updateBook(bookId, new BookDto(book));
+            updateSubscription(subscription.getId(), new SubscriptionRequestDto(subscription));
+            return calculateEndDate(new Date(), period);
+        }
+        return null;
     }
 
     @Override
