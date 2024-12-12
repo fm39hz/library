@@ -1,8 +1,10 @@
 package com.huce.library.modules.payment.vnpay;
 
 import com.huce.library.configuration.VnPayConfig;
+import com.huce.library.modules.payment.PaymentMethods;
 import com.huce.library.modules.payment.PaymentResponseDto;
 import com.huce.library.modules.payment.PaymentService;
+import com.huce.library.modules.payment.PaymentStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +18,13 @@ public class VnPayService implements PaymentService {
 
     @Override
     public String getType() {
-        return "VnPay";
+        return PaymentMethods.VNPay;
     }
 
     @Override
     public PaymentResponseDto createPaymentUrl(Long id, int amount, String paymentInfo) {
         VnPayRequestDto dto = new VnPayRequestDto(config, id, amount, paymentInfo);
         String url = dto.toString();
-        return new PaymentResponseDto(id, amount, paymentInfo, "waiting", url);
+        return new PaymentResponseDto(id, amount, paymentInfo, PaymentStatus.WAITING, url);
     }
 }

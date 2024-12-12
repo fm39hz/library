@@ -1,5 +1,6 @@
 package com.huce.library.modules.payment.vnpay;
 
+import com.huce.library.modules.payment.PaymentMethods;
 import com.huce.library.modules.payment.PaymentResponseDto;
 import com.huce.library.modules.payment.PaymentService;
 import com.huce.library.modules.payment.PaymentServiceFactory;
@@ -13,7 +14,7 @@ public class VnPayController {
     private final PaymentService paymentService;
 
     public VnPayController() {
-        paymentService = PaymentServiceFactory.getService("VnPay");
+        paymentService = PaymentServiceFactory.getService(PaymentMethods.VNPay);
     }
 
     @GetMapping("/selectPaymentMethod/{id}")
