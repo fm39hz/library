@@ -33,11 +33,11 @@ public class Book {
     private List<Subscription> rented;
 
     @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
+    @JoinColumn(name = "author_id")
     private Author author;
 
     @ManyToOne
-    @JoinColumn(name = "publisher_id", nullable = false)
+    @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
     @ManyToMany
