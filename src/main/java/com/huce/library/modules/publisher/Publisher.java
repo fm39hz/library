@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Entity
-@Table(name = "publisher")
+@Table(name = "publishers")
 @Data
 public class Publisher {
     @Id
@@ -20,6 +20,11 @@ public class Publisher {
     @Column(unique = true, nullable = false)
     private String address;
 
-    @OneToMany
+    @OneToMany()
+    @JoinTable(
+            name = "publisher_books",
+            joinColumns = @JoinColumn(name = "publisher_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
     private List<Book> books;
 }
