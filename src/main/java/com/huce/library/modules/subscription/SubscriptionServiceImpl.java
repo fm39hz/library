@@ -32,13 +32,25 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription.setPeriod(subscriptionDto.getPeriod());
         subscription.setStatus(subscriptionDto.getStatus());
         subscription.setRentedBooks(new ArrayList<>());
-        subscription = calculateEndDate(subscription);
         user.setSubscription(subscription);
         userRepository.save(user);
+        if (subscription.getPeriod() == null || Objects.equals(subscription.getStatus(), "pending")) {
+            subscription.setEndDate(subscription.getStartDate());
+            subscription.setPeriod(-1);
+            return subscription;
+        }
+        subscription.setEndDate(calculateEndDate(subscription.getStartDate(), subscription.getPeriod()));
         return subscription;
     }
 
     @Override
+    public Date calculateEndDate(Date startDate, Integer period) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        calendar.add(Calendar.MONTH, period);
+        return calendar.getTime();
+    }
+
     public Subscription calculateEndDate(Subscription subscription) {
         if (subscription.getPeriod() == null || Objects.equals(subscription.getStatus(), "pending")) {
             subscription.setEndDate(subscription.getStartDate());

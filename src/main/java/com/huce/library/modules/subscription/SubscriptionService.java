@@ -1,9 +1,11 @@
 package com.huce.library.modules.subscription;
 
+import java.util.Date;
+
 public interface SubscriptionService {
     Subscription createSubscription(SubscriptionRequestDto subscriptionDto);
 
-    Subscription calculateEndDate(Subscription subscription);
+    Date calculateEndDate(Date startDate, Integer period);
 
     Subscription getSubscription(Long id);
 
