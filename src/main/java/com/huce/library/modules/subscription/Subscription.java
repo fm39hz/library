@@ -35,10 +35,10 @@ public class Subscription {
     private Integer period = 1;
 
     @Column(nullable = false)
-    private Float lateFeePercent;
+    private Float lateFeePercent = 0.25f;
 
     @Column(nullable = false)
-    private Float lateFee;
+    private Float lateFee = 15f;
 
     @Column(nullable = false)
     private Integer rentLimit = 5;
