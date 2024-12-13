@@ -14,7 +14,9 @@ public interface SubscriptionService {
 
     Invoice rentBook(Long bookId, Long userId, Integer period);
 
-    Subscription returnBook(Long bookId, Long userId);
+    Subscription proceedReturnBook(Long bookId, Long userId);
+
+    void completeReturnBook(Long invoiceId);
 
     void deleteSubscription(Long id);
 }

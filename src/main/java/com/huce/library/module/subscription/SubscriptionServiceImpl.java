@@ -8,16 +8,11 @@ import com.huce.library.module.book.BookRepository;
 import com.huce.library.module.book.BookService;
 import com.huce.library.module.invoice.Invoice;
 import com.huce.library.module.invoice.InvoiceRepository;
-import com.huce.library.module.payment.PaymentMethods;
-import com.huce.library.module.payment.PaymentResponseDto;
-import com.huce.library.module.payment.PaymentService;
-import com.huce.library.module.payment.PaymentServiceFactory;
 import com.huce.library.module.user.User;
 import com.huce.library.module.user.UserRepository;
 import com.huce.library.util.CalendarUtil;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -114,7 +109,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Subscription returnBook(Long bookId, Long userId) {
+    public Subscription proceedReturnBook(Long bookId, Long userId) {
         Subscription subscription = subscriptionRepository.findByUser_Id(userId);
         List<Invoice> invoices = invoiceRepository.findAllBySubscription_Id(subscription.getId());
         for (Invoice invoice : invoices) {
@@ -137,6 +132,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             }
         }
         return null;
+    }
+
+    @Override
+    public void completeReturnBook(Long invoiceId) {
+        invoiceRepository.deleteById(invoiceId);
     }
 
     @Override
