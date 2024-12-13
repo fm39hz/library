@@ -1,11 +1,10 @@
 package com.huce.library.configuration;
 
-import com.huce.library.modules.authentication.CustomAuthenticationManager;
-import com.huce.library.modules.jwt.JwtAuthenticationFilter;
-import com.huce.library.modules.jwt.JwtTokenProvider;
-import com.huce.library.modules.user.Roles;
-import com.huce.library.modules.user.UserService;
-import jakarta.servlet.http.HttpServletRequest;
+import com.huce.library.module.authentication.CustomAuthenticationManager;
+import com.huce.library.module.jwt.JwtAuthenticationFilter;
+import com.huce.library.module.jwt.JwtTokenProvider;
+import com.huce.library.module.user.Roles;
+import com.huce.library.module.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 

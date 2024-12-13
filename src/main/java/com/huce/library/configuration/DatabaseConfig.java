@@ -1,8 +1,8 @@
 package com.huce.library.configuration;
 
-import com.huce.library.modules.user.Roles;
-import com.huce.library.modules.user.User;
-import com.huce.library.modules.user.UserRepository;
+import com.huce.library.module.user.Roles;
+import com.huce.library.module.user.User;
+import com.huce.library.module.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
