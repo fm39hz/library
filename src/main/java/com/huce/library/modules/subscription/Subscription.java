@@ -35,10 +35,13 @@ public class Subscription {
     private Integer period = 1;
 
     @Column(nullable = false)
-    private Integer rentLimit = 5;
+    private Float lateFeePercent;
 
-    @ManyToMany(mappedBy = "rented")
-    private List<Book> rentedBooks;
+    @Column(nullable = false)
+    private Float lateFee;
+
+    @Column(nullable = false)
+    private Integer rentLimit = 5;
 
     public Subscription(Long id) {
         setId(id);

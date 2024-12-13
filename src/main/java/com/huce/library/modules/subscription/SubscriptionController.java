@@ -1,5 +1,8 @@
 package com.huce.library.modules.subscription;
 
+import com.huce.library.modules.invoice.Invoice;
+import com.huce.library.modules.invoice.InvoiceRequestDto;
+import com.huce.library.modules.invoice.InvoiceResponseDto;
 import com.huce.library.modules.jwt.JwtTokenProvider;
 import com.huce.library.modules.user.CustomUserDetails;
 import com.huce.library.modules.user.Roles;
@@ -32,9 +35,7 @@ public class SubscriptionController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<SubscriptionResponseDto> updateSubscription(
-            @RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody SubscriptionRequestDto subscriptionDto) {
+    public ResponseEntity<SubscriptionResponseDto> updateSubscription(@RequestHeader("Authorization") String authorizationHeader, @RequestBody SubscriptionRequestDto subscriptionDto) {
         String token = jwtTokenProvider.extractTokenFromHeader(authorizationHeader);
         if (token == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -52,6 +53,7 @@ public class SubscriptionController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         CustomUserDetails user = (CustomUserDetails) userService.loadUserById(jwtTokenProvider.getUserIdFromToken(token, true));
+        System.out.println(user.getUser().getSubscription().getStatus());
         return ResponseEntity.ok().body(new SubscriptionResponseDto(user.getUser().getSubscription()));
     }
 
@@ -68,16 +70,16 @@ public class SubscriptionController {
     }
 
     @PostMapping("/rent")
-    public ResponseEntity<Date> rentBook(@RequestBody RentRequestDto rentRequestDto, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<InvoiceResponseDto> rentBook(@RequestBody InvoiceRequestDto invoiceRequestDto, @RequestHeader("Authorization") String authorizationHeader) {
         String token = jwtTokenProvider.extractTokenFromHeader(authorizationHeader);
         if (token == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         CustomUserDetails user = (CustomUserDetails) userService.loadUserById(jwtTokenProvider.getUserIdFromToken(token, true));
-        Date returnDate = subscriptionService.rentBook(rentRequestDto.getBookId(), user.getUser().getId(), rentRequestDto.getPeriod());
-        if (returnDate == null) {
+        Invoice invoice = subscriptionService.rentBook(invoiceRequestDto.getBookId(), user.getUser().getId(), invoiceRequestDto.getPeriod());
+        if (invoice == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok().body(returnDate);
+        return ResponseEntity.ok().body(new InvoiceResponseDto(invoice));
     }
 }

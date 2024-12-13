@@ -1,4 +1,4 @@
-package com.huce.library.modules.subscription;
+package com.huce.library.modules.invoice;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RentRequestDto {
+public class InvoiceRequestDto {
     private Long bookId;
     private Integer period;
 }

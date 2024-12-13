@@ -3,25 +3,25 @@ package com.huce.library.modules.subscription;
 import com.huce.library.exception.ResourceNotFoundException;
 import com.huce.library.modules.book.Book;
 import com.huce.library.modules.book.BookDto;
-import com.huce.library.modules.book.BookRepository;
 import com.huce.library.modules.book.BookService;
+import com.huce.library.modules.invoice.InvoiceRepository;
 import com.huce.library.modules.user.User;
 import com.huce.library.modules.user.UserRepository;
 import org.springframework.stereotype.Service;
+import com.huce.library.modules.invoice.Invoice;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
+    private final InvoiceRepository invoiceRepository;
     private final BookService bookService;
     private final UserRepository userRepository;
 
-    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, BookService bookService, UserRepository userRepository) {
+    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, InvoiceRepository invoiceRepository, BookService bookService, UserRepository userRepository) {
         this.subscriptionRepository = subscriptionRepository;
+        this.invoiceRepository = invoiceRepository;
         this.bookService = bookService;
         this.userRepository = userRepository;
     }
@@ -37,7 +37,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription.setStartDate(new Date());
         subscription.setPeriod(subscriptionDto.getPeriod());
         subscription.setStatus(subscriptionDto.getStatus());
-        subscription.setRentedBooks(new ArrayList<>());
         user.setSubscription(subscription);
         userRepository.save(user);
         if (subscription.getPeriod() == null || Objects.equals(subscription.getStatus(), "pending")) {
@@ -55,19 +54,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         calendar.setTime(startDate);
         calendar.add(Calendar.MONTH, period);
         return calendar.getTime();
-    }
-
-    public Subscription calculateEndDate(Subscription subscription) {
-        if (subscription.getPeriod() == null || Objects.equals(subscription.getStatus(), "pending")) {
-            subscription.setEndDate(subscription.getStartDate());
-            subscription.setPeriod(-1);
-            return subscription;
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(subscription.getStartDate());
-        calendar.add(Calendar.MONTH, subscription.getPeriod());
-        subscription.setEndDate(calendar.getTime());
-        return subscription;
     }
 
     @Override
@@ -88,23 +74,29 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription.setStartDate(subscriptionDto.getStartDate());
         subscription.setPeriod(subscriptionDto.getPeriod());
         subscription.setStatus(subscriptionDto.getStatus());
-        return subscriptionRepository.save(calculateEndDate(subscription));
+        subscription.setEndDate(calculateEndDate(subscription.getStartDate(), subscription.getPeriod()));
+        return subscriptionRepository.save(subscription);
     }
 
     @Override
-    public Date rentBook(Long bookId, Long userId, Integer period) {
+    public Invoice rentBook(Long bookId, Long userId, Integer period) {
         if (userRepository.findById(userId).isEmpty()) {
             return null;
         }
         User user = userRepository.findById(userId).get();
         Book book = bookService.getBookById(bookId);
         Subscription subscription = user.getSubscription();
-        if (book.getInStock() > 0 || subscription.getRentedBooks().size() >= subscription.getRentLimit()) {
+        List<Invoice> invoices = invoiceRepository.findAllBySubscription_Id(subscription.getId());
+        if (book.getInStock() > 0 || invoices.size() >= subscription.getRentLimit()) {
             book.setInStock(book.getInStock() - 1);
-            subscription.getRentedBooks().add(book);
+            Invoice invoice = new Invoice();
+            invoice.setBook(book);
+            invoice.setRentDate(new Date());
+            invoice.setExceedDate(calculateEndDate(invoice.getRentDate(), period));
+            invoice.setSubscription(subscription);
             bookService.updateBook(bookId, new BookDto(book));
             updateSubscription(subscription.getId(), new SubscriptionRequestDto(subscription));
-            return calculateEndDate(new Date(), period);
+            return invoiceRepository.save(invoice);
         }
         return null;
     }

@@ -27,9 +27,6 @@ public class Book {
     @Column()
     private String image;
 
-    @ManyToMany()
-    private List<Subscription> rented;
-
     @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;

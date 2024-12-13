@@ -1,6 +1,7 @@
 package com.huce.library.modules.subscription;
 
 import java.util.Date;
+import com.huce.library.modules.invoice.Invoice;
 
 public interface SubscriptionService {
     Subscription createSubscription(SubscriptionRequestDto subscriptionDto);
@@ -11,7 +12,7 @@ public interface SubscriptionService {
 
     Subscription updateSubscription(Long id, SubscriptionRequestDto subscriptionDto);
 
-    Date rentBook(Long bookId, Long userId, Integer period);
+    Invoice rentBook(Long bookId, Long userId, Integer period);
 
     void deleteSubscription(Long id);
 }
