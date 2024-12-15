@@ -46,8 +46,8 @@ public class AuthenticationController {
         return ResponseEntity.ok().body(new UserResponseDto(userService.createUser(user, passwordEncoder.encode(user.getPassword()))));
     }
 
-    @PostMapping("/user")
-    public ResponseEntity<UserResponseDto> updateSubscription(@UserId Long userId) {
+    @GetMapping("/user")
+    public ResponseEntity<UserResponseDto> getUser(@UserId Long userId) {
         return ResponseEntity.ok().body(new UserResponseDto(((CustomUserDetails)userService.loadUserById(userId)).getUser()));
     }
 }
