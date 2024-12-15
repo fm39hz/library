@@ -27,7 +27,7 @@ public class BookServiceImpl implements BookService {
         newBook.setImage(book.getImage());
         newBook.setInStock(book.getInStock());
         newBook.setAuthor(setAuthor(book));
-        return newBook;
+        return bookRepository.save(newBook);
     }
 
     @Override
