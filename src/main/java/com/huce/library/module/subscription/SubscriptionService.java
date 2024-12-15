@@ -1,6 +1,6 @@
 package com.huce.library.module.subscription;
 
-import com.huce.library.module.invoice.Invoice;
+import com.huce.library.module.record.Record;
 
 import java.util.Date;
 
@@ -13,7 +13,7 @@ public interface SubscriptionService {
 
     Subscription updateSubscription(Long id, SubscriptionRequestDto subscriptionDto);
 
-    Invoice rentBook(Long bookId, Long userId, Integer period);
+    Record rentBook(Long bookId, Long userId, Integer period);
 
     Subscription proceedReturnBook(Long bookId, Long userId);
 

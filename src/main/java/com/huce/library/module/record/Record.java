@@ -1,4 +1,4 @@
-package com.huce.library.module.invoice;
+package com.huce.library.module.record;
 
 import com.huce.library.module.book.Book;
 import com.huce.library.module.subscription.Subscription;
@@ -9,8 +9,8 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "invoices")
-public class Invoice {
+@Table(name = "records")
+public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +20,9 @@ public class Invoice {
 
     @Column(nullable = false)
     private Date exceedDate;
+
+    @Column(nullable = false)
+    private String status = "renting";
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id")

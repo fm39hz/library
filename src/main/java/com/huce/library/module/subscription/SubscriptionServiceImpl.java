@@ -6,8 +6,8 @@ import com.huce.library.module.book.Book;
 import com.huce.library.module.book.BookDto;
 import com.huce.library.module.book.BookRepository;
 import com.huce.library.module.book.BookService;
-import com.huce.library.module.invoice.Invoice;
-import com.huce.library.module.invoice.InvoiceRepository;
+import com.huce.library.module.record.Record;
+import com.huce.library.module.record.RecordRepository;
 import com.huce.library.module.user.User;
 import com.huce.library.module.user.UserRepository;
 import com.huce.library.util.CalendarUtil;
@@ -21,14 +21,14 @@ import java.util.Objects;
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
-    private final InvoiceRepository invoiceRepository;
+    private final RecordRepository recordRepository;
     private final BookService bookService;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
 
-    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, InvoiceRepository invoiceRepository, BookService bookService, UserRepository userRepository, BookRepository bookRepository) {
+    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, RecordRepository recordRepository, BookService bookService, UserRepository userRepository, BookRepository bookRepository) {
         this.subscriptionRepository = subscriptionRepository;
-        this.invoiceRepository = invoiceRepository;
+        this.recordRepository = recordRepository;
         this.bookService = bookService;
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
@@ -87,23 +87,23 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Invoice rentBook(Long bookId, Long userId, Integer period) {
+    public Record rentBook(Long bookId, Long userId, Integer period) {
         Subscription subscription = subscriptionRepository.findByUser_Id(userId);
         if (subscription.getRemainingFee() > 0) {
             throw new RequestDeniedException("There is still remaining fee");
         }
-        List<Invoice> invoices = invoiceRepository.findAllBySubscription_Id(subscription.getId());
+        List<Record> records = recordRepository.findAllBySubscription_Id(subscription.getId());
         Book book = bookService.getBookById(bookId);
-        if (book.getInStock() > 0 || invoices.size() >= subscription.getRentLimit()) {
+        if (book.getInStock() > 0 || records.size() >= subscription.getRentLimit()) {
             book.setInStock(book.getInStock() - 1);
-            Invoice invoice = new Invoice();
-            invoice.setBook(book);
-            invoice.setRentDate(new Date());
-            invoice.setExceedDate(calculateEndDate(invoice.getRentDate(), period));
-            invoice.setSubscription(subscription);
+            Record record = new Record();
+            record.setBook(book);
+            record.setRentDate(new Date());
+            record.setExceedDate(calculateEndDate(record.getRentDate(), period));
+            record.setSubscription(subscription);
             bookService.updateBook(bookId, new BookDto(book));
             updateSubscription(subscription.getId(), new SubscriptionRequestDto(subscription));
-            return invoiceRepository.save(invoice);
+            return recordRepository.save(record);
         }
         return null;
     }
@@ -111,17 +111,14 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public Subscription proceedReturnBook(Long bookId, Long userId) {
         Subscription subscription = subscriptionRepository.findByUser_Id(userId);
-        List<Invoice> invoices = invoiceRepository.findAllBySubscription_Id(subscription.getId());
-        for (Invoice invoice : invoices) {
-            if (invoice.getBook().getId().equals(bookId)) {
-                Book book = invoice.getBook();
-                book.setInStock(invoice.getBook().getInStock() - 1);
-                bookRepository.save(book);
+        List<Record> records = recordRepository.findAllBySubscription_Id(subscription.getId());
+        for (Record record : records) {
+            if (record.getBook().getId().equals(bookId)) {
                 Calendar exceedCalendar = Calendar.getInstance();
                 Calendar calendar = Calendar.getInstance();
-                exceedCalendar.setTime(invoice.getExceedDate());
+                exceedCalendar.setTime(record.getExceedDate());
                 calendar.setTime(new Date());
-                invoiceRepository.delete(invoice);
+                recordRepository.delete(record);
                 int monthsBetween = CalendarUtil.getMonthsBetween(calendar, exceedCalendar);
                 if (monthsBetween <= 0) {
                     float fee = subscription.getLateFee() + subscription.getLateFeePercent() * monthsBetween;
@@ -136,7 +133,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public void completeReturnBook(Long invoiceId) {
-        invoiceRepository.deleteById(invoiceId);
+        recordRepository.findById(invoiceId).ifPresent(invoice -> {
+            Book book = invoice.getBook();
+            book.setInStock(invoice.getBook().getInStock() - 1);
+            bookRepository.save(book);
+            invoice.setStatus("returned");
+            recordRepository.save(invoice);
+        });
     }
 
     @Override

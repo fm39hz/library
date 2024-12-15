@@ -1,8 +1,8 @@
 package com.huce.library.module.subscription;
 
-import com.huce.library.module.invoice.Invoice;
-import com.huce.library.module.invoice.InvoiceRequestDto;
-import com.huce.library.module.invoice.InvoiceResponseDto;
+import com.huce.library.module.record.Record;
+import com.huce.library.module.record.RecordRequestDto;
+import com.huce.library.module.record.RecordResponseDto;
 import com.huce.library.module.jwt.UserId;
 import com.huce.library.module.payment.PaymentMethods;
 import com.huce.library.module.payment.PaymentResponseDto;
@@ -61,13 +61,13 @@ public class SubscriptionController {
     }
 
     @PostMapping("/rent")
-    public ResponseEntity<InvoiceResponseDto> rentBook(@UserId Long userId, @RequestBody InvoiceRequestDto invoiceRequestDto) {
+    public ResponseEntity<RecordResponseDto> rentBook(@UserId Long userId, @RequestBody RecordRequestDto recordRequestDto) {
         CustomUserDetails user = (CustomUserDetails) userService.loadUserById(userId);
-        Invoice invoice = subscriptionService.rentBook(invoiceRequestDto.getBookId(), user.getUser().getId(), invoiceRequestDto.getPeriod());
-        if (invoice == null) {
+        Record record = subscriptionService.rentBook(recordRequestDto.getBookId(), user.getUser().getId(), recordRequestDto.getPeriod());
+        if (record == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok().body(new InvoiceResponseDto(invoice));
+        return ResponseEntity.ok().body(new RecordResponseDto(record));
     }
 
     @PostMapping("/return-book/{bookId}")
