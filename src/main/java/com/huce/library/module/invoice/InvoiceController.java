@@ -19,7 +19,7 @@ public class InvoiceController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<InvoiceResponseDto>> getAllInvoice(){
+    public ResponseEntity<List<InvoiceResponseDto>> getAllInvoice() {
         List<InvoiceResponseDto> invoices = new ArrayList<>();
         for (Invoice invoice : invoiceService.getAllInvoice()) {
             invoices.add(new InvoiceResponseDto(invoice));
@@ -28,7 +28,7 @@ public class InvoiceController {
     }
 
     @GetMapping("/subscription/{subscriptionId}")
-    public ResponseEntity<List<InvoiceResponseDto>> getAllInvoiceWithSubscription(@PathVariable Long subscriptionId){
+    public ResponseEntity<List<InvoiceResponseDto>> getAllInvoiceWithSubscription(@PathVariable Long subscriptionId) {
         List<InvoiceResponseDto> invoices = new ArrayList<>();
         for (Invoice invoice : invoiceService.getAllInvoiceBySubscriptionId(subscriptionId)) {
             invoices.add(new InvoiceResponseDto(invoice));
@@ -37,7 +37,7 @@ public class InvoiceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InvoiceResponseDto> getInvoiceById(@PathVariable Long id){
+    public ResponseEntity<InvoiceResponseDto> getInvoiceById(@PathVariable Long id) {
         return ResponseEntity.ok().body(new InvoiceResponseDto(invoiceService.getInvoiceById(id)));
     }
 }

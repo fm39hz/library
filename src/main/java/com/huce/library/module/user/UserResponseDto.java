@@ -7,11 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserResponseDto {
     private Long id;
-
     private String username;
-
     private String role;
-
     private Long subscriptionId;
 
     public UserResponseDto(User user) {

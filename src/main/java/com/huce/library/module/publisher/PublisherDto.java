@@ -12,6 +12,7 @@ public class PublisherDto {
     private Long id;
     private String name;
     private List<BookDto> books;
+
     public PublisherDto(Publisher publisher) {
         this.id = publisher.getId();
         this.name = publisher.getName();

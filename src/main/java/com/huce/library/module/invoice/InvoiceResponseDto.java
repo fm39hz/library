@@ -13,6 +13,7 @@ public class InvoiceResponseDto {
     private Date exceedDate;
     private BookDto book;
     private SubscriptionResponseDto subscription;
+
     public InvoiceResponseDto(Invoice invoice) {
         setId(invoice.getId());
         setRentDate(invoice.getRentDate());

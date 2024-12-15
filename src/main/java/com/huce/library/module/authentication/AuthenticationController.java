@@ -1,6 +1,10 @@
 package com.huce.library.module.authentication;
 
-import com.huce.library.module.user.*;
+import com.huce.library.module.jwt.UserId;
+import com.huce.library.module.user.CustomUserDetails;
+import com.huce.library.module.user.UserRequestDto;
+import com.huce.library.module.user.UserResponseDto;
+import com.huce.library.module.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,14 +42,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserRequestDto> createUser(@RequestBody UserRequestDto user) {
-        return ResponseEntity.ok().body(new UserRequestDto(userService.createUser(user, passwordEncoder.encode(user.getPassword()))));
+    public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto user) {
+        return ResponseEntity.ok().body(new UserResponseDto(userService.createUser(user, passwordEncoder.encode(user.getPassword()))));
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<UserResponseDto> updateSubscription(
-            @RequestHeader("Authorization") String authorizationHeader
-            ) {
-        return ResponseEntity.ok().body(new UserResponseDto(authenticationService.getUserByToken(authorizationHeader)));
+    @PostMapping("/user")
+    public ResponseEntity<UserResponseDto> updateSubscription(@UserId Long userId) {
+        return ResponseEntity.ok().body(new UserResponseDto(((CustomUserDetails)userService.loadUserById(userId)).getUser()));
     }
 }

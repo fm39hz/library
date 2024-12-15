@@ -3,8 +3,6 @@ package com.huce.library.module.subscription;
 import com.huce.library.module.invoice.Invoice;
 import com.huce.library.module.invoice.InvoiceRequestDto;
 import com.huce.library.module.invoice.InvoiceResponseDto;
-import com.huce.library.module.invoice.InvoiceService;
-import com.huce.library.module.jwt.JwtTokenProvider;
 import com.huce.library.module.jwt.UserId;
 import com.huce.library.module.payment.PaymentMethods;
 import com.huce.library.module.payment.PaymentResponseDto;
@@ -24,9 +22,9 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping("/subscription")
 public class SubscriptionController {
-    private final SubscriptionService subscriptionService;
     private final UserService userService;
     private final PaymentService paymentService;
+    private final SubscriptionService subscriptionService;
 
     public SubscriptionController(SubscriptionService subscriptionService, UserService userService) {
         this.subscriptionService = subscriptionService;

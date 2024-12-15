@@ -1,11 +1,9 @@
 package com.huce.library.module.subscription;
 
-import com.huce.library.module.book.BookDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @AllArgsConstructor

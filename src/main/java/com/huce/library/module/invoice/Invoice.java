@@ -21,11 +21,11 @@ public class Invoice {
     @Column(nullable = false)
     private Date exceedDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subscription_id")
     private Subscription subscription;
 }

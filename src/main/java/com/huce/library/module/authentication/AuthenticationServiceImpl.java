@@ -46,13 +46,4 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         return null;
     }
-
-    @Override
-    public User getUserByToken(String header) {
-        String token = tokenProvider.extractTokenFromHeader(header);
-        if (token == null) {
-            return null;
-        }
-        return ((CustomUserDetails) userService.loadUserById(tokenProvider.getUserIdFromToken(token, true))).getUser();
-    }
 }
