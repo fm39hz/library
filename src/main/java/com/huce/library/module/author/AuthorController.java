@@ -1,7 +1,7 @@
 package com.huce.library.module.author;
 
 import com.huce.library.module.book.Book;
-import com.huce.library.module.book.BookDto;
+import com.huce.library.module.book.BookResponseDto;
 import com.huce.library.module.user.Roles;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.http.HttpStatus;
@@ -37,9 +37,9 @@ public class AuthorController {
 
     @GetMapping("/{id}/books")
     @RolesAllowed(Roles.USER)
-    public ResponseEntity<List<BookDto>> getAuthorBooks(@PathVariable Long id) {
+    public ResponseEntity<List<BookResponseDto>> getAuthorBooks(@PathVariable Long id) {
         List<Book> books = authorService.getAuthorById(id).getBooks();
-        List<BookDto> bookDtos = books.stream().map(BookDto::new).collect(Collectors.toList());
+        List<BookResponseDto> bookDtos = books.stream().map(BookResponseDto::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(bookDtos);
     }
 

@@ -2,10 +2,7 @@ package com.huce.library.module.subscription;
 
 import com.huce.library.exception.RequestDeniedException;
 import com.huce.library.exception.ResourceNotFoundException;
-import com.huce.library.module.book.Book;
-import com.huce.library.module.book.BookDto;
-import com.huce.library.module.book.BookRepository;
-import com.huce.library.module.book.BookService;
+import com.huce.library.module.book.*;
 import com.huce.library.module.record.Record;
 import com.huce.library.module.record.RecordRepository;
 import com.huce.library.module.user.User;
@@ -101,7 +98,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             record.setRentDate(new Date());
             record.setExceedDate(calculateEndDate(record.getRentDate(), period));
             record.setSubscription(subscription);
-            bookService.updateBook(bookId, new BookDto(book));
+            bookService.updateBook(bookId, new BookRequestDto(book));
             updateSubscription(subscription.getId(), new SubscriptionRequestDto(subscription));
             return recordRepository.save(record);
         }

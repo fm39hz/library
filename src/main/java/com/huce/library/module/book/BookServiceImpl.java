@@ -3,7 +3,6 @@ package com.huce.library.module.book;
 import com.huce.library.exception.ResourceNotFoundException;
 import com.huce.library.module.author.Author;
 import com.huce.library.module.author.AuthorRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book saveBook(BookDto book) {
+    public Book saveBook(BookRequestDto book) {
         Book newBook = new Book();
         newBook.setTitle(book.getTitle());
         newBook.setDescription(book.getDescription());
@@ -45,7 +44,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book updateBook(Long id, BookDto bookDetails) {
+    public Book updateBook(Long id, BookRequestDto bookDetails) {
         Book book = getBookById(id);
         book.setTitle(book.getTitle());
         book.setImage(bookDetails.getImage());
@@ -55,7 +54,7 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
     }
 
-    private Author setAuthor(BookDto bookDetails) {
+    private Author setAuthor(BookRequestDto bookDetails) {
         Author author;
         if (authorRepository.findById(bookDetails.getAuthorId()).isEmpty()) {
             author = new Author();

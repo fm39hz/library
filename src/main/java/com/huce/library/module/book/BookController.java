@@ -23,29 +23,29 @@ public class BookController {
 
     @GetMapping("/")
     @RolesAllowed(Roles.USER)
-    public ResponseEntity<List<BookDto>> getAllBooks() {
+    public ResponseEntity<List<BookResponseDto>> getAllBooks() {
         List<Book> books = bookService.getAllBooks();
-        List<BookDto> bookDtos = books.stream().map(BookDto::new).collect(Collectors.toList());
+        List<BookResponseDto> bookDtos = books.stream().map(BookResponseDto::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(bookDtos);
     }
 
     @GetMapping("/{id}")
     @RolesAllowed(Roles.USER)
-    public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(new BookDto(bookService.getBookById(id)));
+    public ResponseEntity<BookResponseDto> getBookById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(new BookResponseDto(bookService.getBookById(id)));
     }
 
     @PostMapping("/")
     @RolesAllowed(Roles.ADMIN)
-    public ResponseEntity<BookDto> createBook(@RequestBody BookDto book) {
+    public ResponseEntity<BookResponseDto> createBook(@RequestBody BookRequestDto book) {
         Book savedBook = bookService.saveBook(book);
-        return new ResponseEntity<>(new BookDto(savedBook), HttpStatus.CREATED);
+        return new ResponseEntity<>(new BookResponseDto(savedBook), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @RolesAllowed(Roles.ADMIN)
-    public ResponseEntity<BookDto> updateBook(@PathVariable Long id, @RequestBody BookDto book) {
-        return ResponseEntity.ok().body(new BookDto(bookService.updateBook(id, book)));
+    public ResponseEntity<BookResponseDto> updateBook(@PathVariable Long id, @RequestBody BookRequestDto book) {
+        return ResponseEntity.ok().body(new BookResponseDto(bookService.updateBook(id, book)));
     }
 
     @DeleteMapping("/{id}")

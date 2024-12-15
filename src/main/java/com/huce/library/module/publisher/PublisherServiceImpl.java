@@ -1,7 +1,7 @@
 package com.huce.library.module.publisher;
 
 import com.huce.library.module.book.Book;
-import com.huce.library.module.book.BookDto;
+import com.huce.library.module.book.BookResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class PublisherServiceImpl implements PublisherService {
         publisher.setId(id);
         publisher.setName(publisherDto.getName());
         List<Book> books = new ArrayList<>();
-        for (BookDto book : publisherDto.getBooks()) {
+        for (BookResponseDto book : publisherDto.getBooks()) {
             if (publisher.getBooks().contains(book)) {
                 continue;
             }
