@@ -20,7 +20,7 @@ public class AuthorServiceImpl implements AuthorService {
 
 
     @Override
-    public Author saveAuthor(AuthorDto author) {
+    public Author saveAuthor(AuthorRequestDto author) {
         Author newAuthor = new Author();
         List<Book> books = new ArrayList<>();
         for (Long bookId : author.getBooks()) {
@@ -29,7 +29,6 @@ public class AuthorServiceImpl implements AuthorService {
                 books.add(book);
             }
         }
-        newAuthor.setId(author.getId());
         newAuthor.setName(author.getName());
         newAuthor.setAge(author.getAge());
         newAuthor.setBooks(books);
@@ -50,7 +49,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author updateAuthor(Long id, AuthorDto authorDetails) {
+    public Author updateAuthor(Long id, AuthorRequestDto authorDetails) {
         Author author = getAuthorById(id);
         author.setName(authorDetails.getName());
         author.setAge(authorDetails.getAge());

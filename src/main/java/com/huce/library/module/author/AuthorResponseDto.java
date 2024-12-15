@@ -10,13 +10,13 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class AuthorDto {
+public class AuthorResponseDto {
     private Long id;
     private String name;
     private Integer age;
     private List<Long> books;
 
-    public AuthorDto(@NotNull Author author) {
+    public AuthorResponseDto(@NotNull Author author) {
         List<Long> books = new ArrayList<>();
         for (Book book : author.getBooks()) {
             books.add(book.getId());

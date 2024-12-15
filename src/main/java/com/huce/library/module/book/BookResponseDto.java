@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 @AllArgsConstructor
 public class BookResponseDto {
     private Long id;
-    private String title;
+    private String name;
     private String description;
     private Integer inStock;
     private String image;
@@ -16,7 +16,7 @@ public class BookResponseDto {
 
     public BookResponseDto(@NotNull Book book) {
         setId(book.getId());
-        setTitle(book.getTitle());
+        setName(book.getTitle());
         setDescription(book.getDescription());
         setInStock(book.getInStock());
         setAuthorId(book.getAuthor().getId());

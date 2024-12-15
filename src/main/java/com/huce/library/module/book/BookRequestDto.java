@@ -7,14 +7,14 @@ import org.jetbrains.annotations.NotNull;
 @Data
 @AllArgsConstructor
 public class BookRequestDto {
-    private String title;
+    private String name;
     private String description;
     private Integer inStock;
     private String image;
     private Long authorId;
 
     public BookRequestDto(@NotNull Book book) {
-        setTitle(book.getTitle());
+        setName(book.getTitle());
         setDescription(book.getDescription());
         setInStock(book.getInStock());
         setAuthorId(book.getAuthor().getId());

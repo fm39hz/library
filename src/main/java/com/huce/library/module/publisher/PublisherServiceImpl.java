@@ -54,7 +54,7 @@ public class PublisherServiceImpl implements PublisherService {
             }
             Book book1 = new Book();
             book1.setId(book.getId());
-            book1.setTitle(book.getTitle());
+            book1.setTitle(book.getName());
             publisher.getBooks().add(book1);
             books.add(book1);
         }

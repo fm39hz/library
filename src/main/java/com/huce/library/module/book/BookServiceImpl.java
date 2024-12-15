@@ -22,7 +22,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book saveBook(BookRequestDto book) {
         Book newBook = new Book();
-        newBook.setTitle(book.getTitle());
+        newBook.setTitle(book.getName());
         newBook.setDescription(book.getDescription());
         newBook.setImage(book.getImage());
         newBook.setInStock(book.getInStock());
