@@ -3,6 +3,7 @@ package com.huce.library.module.book;
 import com.huce.library.exception.ResourceNotFoundException;
 import com.huce.library.module.author.Author;
 import com.huce.library.module.author.AuthorRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +22,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book saveBook(BookDto book) {
-        if (authorRepository.findById(book.getAuthorId()).isEmpty()) {
-            Author author = new Author();
-            author.setId(book.getAuthorId());
-            authorRepository.save(author);
-        }
         Book newBook = new Book();
-        Author author = authorRepository.findById(book.getAuthorId()).get();
-        newBook.setAuthor(author);
         newBook.setTitle(book.getTitle());
         newBook.setDescription(book.getDescription());
         newBook.setImage(book.getImage());
         newBook.setInStock(book.getInStock());
-        return bookRepository.save(newBook);
+        newBook.setAuthor(setAuthor(book));
+        return newBook;
     }
 
     @Override
@@ -51,19 +46,25 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book updateBook(Long id, BookDto bookDetails) {
+        Book book = getBookById(id);
+        book.setTitle(book.getTitle());
+        book.setImage(bookDetails.getImage());
+        book.setInStock(bookDetails.getInStock());
+        book.setDescription(bookDetails.getDescription());
+        book.setAuthor(setAuthor(bookDetails));
+        return bookRepository.save(book);
+    }
+
+    private Author setAuthor(BookDto bookDetails) {
+        Author author;
         if (authorRepository.findById(bookDetails.getAuthorId()).isEmpty()) {
-            Author author = new Author();
+            author = new Author();
             author.setId(bookDetails.getAuthorId());
             authorRepository.save(author);
+        } else {
+            author = authorRepository.findById(bookDetails.getAuthorId()).get();
         }
-        Book book = getBookById(id);
-        Author author = authorRepository.findById(bookDetails.getAuthorId()).get();
-        book.setAuthor(author);
-        book.setTitle(book.getTitle());
-        book.setDescription(bookDetails.getDescription());
-        book.setInStock(bookDetails.getInStock());
-        book.setImage(bookDetails.getImage());
-        return bookRepository.save(book);
+        return author;
     }
 
     @Override

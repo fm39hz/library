@@ -52,8 +52,6 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author updateAuthor(Long id, AuthorDto authorDetails) {
         Author author = getAuthorById(id);
-        Author newAuthor = saveAuthor(authorDetails);
-        newAuthor.setId(author.getId());
         author.setName(authorDetails.getName());
         author.setAge(authorDetails.getAge());
         List<Book> books = new ArrayList<>();
