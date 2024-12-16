@@ -1,0 +1,36 @@
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    #    restart: on-failure
+    networks:
+      - library_service
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mariadb://mariadb:3306/library"
+      SPRING_DATASOURCE_USERNAME: "library"
+      SPRING_DATASOURCE_PASSWORD: "@VeryStr1ctP@ssvvord"
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:latest
+    networks:
+      - library_service
+    ports:
+      - "3309:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: "@VeryStr1ctP@ssvvord"
+      MARIADB_DATABASE: "library"
+      MARIADB_USER: "library"
+      MARIADB_PASSWORD: "@VeryStr1ctP@ssvvord"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
+
+networks:
+  library_service:
+volumes:
+  mariadb_data:
