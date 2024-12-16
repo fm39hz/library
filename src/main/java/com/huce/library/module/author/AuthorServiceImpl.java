@@ -22,16 +22,14 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author saveAuthor(AuthorRequestDto author) {
         Author newAuthor = new Author();
-        List<Book> books = new ArrayList<>();
         for (Long bookId : author.getBooks()) {
             if (bookRepository.findById(bookId).isPresent()) {
                 Book book = bookRepository.findById(bookId).get();
-                books.add(book);
+                newAuthor.getBooks().add(book);
             }
         }
         newAuthor.setName(author.getName());
         newAuthor.setAge(author.getAge());
-        newAuthor.setBooks(books);
         return authorRepository.save(newAuthor);
     }
 
@@ -53,14 +51,12 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = getAuthorById(id);
         author.setName(authorDetails.getName());
         author.setAge(authorDetails.getAge());
-        List<Book> books = new ArrayList<>();
         for (Long bookId : authorDetails.getBooks()) {
             if (bookRepository.findById(bookId).isPresent()) {
                 Book book = bookRepository.findById(bookId).get();
-                books.add(book);
+                author.getBooks().add(book);
             }
         }
-        author.setBooks(books);
         return authorRepository.save(author);
     }
 

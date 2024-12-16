@@ -4,6 +4,7 @@ import com.huce.library.module.book.Book;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,5 +22,5 @@ public class Author {
     private Integer age;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 }
