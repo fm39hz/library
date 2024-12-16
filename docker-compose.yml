@@ -1,9 +1,6 @@
 services:
   app:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    #    restart: on-failure
+    image: fm39hz/library:0.0.1
     networks:
       - library_service
     ports:
