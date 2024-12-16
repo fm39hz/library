@@ -1,6 +1,6 @@
 services:
   app:
-    image: fm39hz/library:0.0.1
+    image: fm39hz/library:latest
     networks:
       - library_service
     ports:
