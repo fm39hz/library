@@ -5,9 +5,11 @@ import com.huce.library.exception.ResourceNotFoundException;
 import com.huce.library.module.book.*;
 import com.huce.library.module.record.Record;
 import com.huce.library.module.record.RecordRepository;
+import com.huce.library.module.user.Roles;
 import com.huce.library.module.user.User;
 import com.huce.library.module.user.UserRepository;
 import com.huce.library.util.CalendarUtil;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -71,6 +73,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             throw new ResourceNotFoundException("Subscription cancelled");
         }
         return subscriptionRepository.findById(id).get();
+    }
+
+    @Override
+    public List<Subscription> getAllSubscriptions() {
+        return subscriptionRepository.findAll();
     }
 
     @Override

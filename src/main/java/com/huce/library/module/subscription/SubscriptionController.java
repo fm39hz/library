@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/subscription")
@@ -50,6 +52,17 @@ public class SubscriptionController {
     public ResponseEntity<SubscriptionResponseDto> getSubscription(@UserId Long userId) {
         CustomUserDetails user = (CustomUserDetails) userService.loadUserById(userId);
         return ResponseEntity.ok().body(new SubscriptionResponseDto(user.getUser().getSubscription()));
+    }
+
+    @GetMapping("/get-all")
+    @RolesAllowed(Roles.ADMIN)
+    public ResponseEntity<List<SubscriptionResponseDto>> getAllSubscription() {
+        List<Subscription> subscriptions = subscriptionService.getAllSubscriptions();
+        List<SubscriptionResponseDto> subscriptionResponseDtoList = new ArrayList<>();
+        for (Subscription subscription : subscriptions) {
+            subscriptionResponseDtoList.add(new SubscriptionResponseDto(subscription));
+        }
+        return ResponseEntity.ok().body(subscriptionResponseDtoList);
     }
 
     @DeleteMapping("/")

@@ -3,6 +3,7 @@ package com.huce.library.module.subscription;
 import com.huce.library.module.record.Record;
 
 import java.util.Date;
+import java.util.List;
 
 public interface SubscriptionService {
     Subscription createSubscription(SubscriptionRequestDto subscriptionDto);
@@ -10,6 +11,8 @@ public interface SubscriptionService {
     Date calculateEndDate(Date startDate, Integer period);
 
     Subscription getSubscription(Long id);
+
+    List<Subscription> getAllSubscriptions();
 
     Subscription updateSubscription(Long id, SubscriptionRequestDto subscriptionDto);
 
