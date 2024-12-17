@@ -39,15 +39,10 @@ public class UserServiceImpl implements UserService {
         newUser.setUsername(user.getUsername());
         newUser.setPassword(encodedPassword);
         newUser.setRole(user.getRole());
-        if (user.getSubscriptionId() == null) {
-            User resultUser = userRepository.save(newUser);
-            Subscription newSubscription = subscriptionService.createSubscription(new SubscriptionRequestDto(subscription));
-            resultUser.setSubscription(newSubscription);
-            return userRepository.save(resultUser);
-        }
-        subscription.setId(user.getSubscriptionId());
-        newUser.setSubscription(subscriptionService.getSubscription(subscription.getId()));
-        return userRepository.save(newUser);
+        User resultUser = userRepository.save(newUser);
+        Subscription newSubscription = subscriptionService.createSubscription(new SubscriptionRequestDto(subscription));
+        resultUser.setSubscription(newSubscription);
+        return userRepository.save(resultUser);
     }
 
     @Override
@@ -57,5 +52,10 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("User not found");
         }
         return new CustomUserDetails(user);
+    }
+
+    @Override
+    public void deleteUserById(long id) {
+        userRepository.deleteById(id);
     }
 }

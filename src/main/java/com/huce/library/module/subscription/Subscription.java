@@ -30,7 +30,7 @@ public class Subscription {
     private String status = "pending";
 
     @Column(nullable = false)
-    private Integer period = 0;
+    private Integer period = -1;
 
     @Column(nullable = false)
     private Float lateFeePercent = 0.25f;
@@ -39,7 +39,7 @@ public class Subscription {
     private Float lateFee = 15f;
 
     @Column(nullable = false)
-    private Float remainingFee;
+    private Float remainingFee = 0f;
 
     @Column(nullable = false)
     private Integer rentLimit = 5;

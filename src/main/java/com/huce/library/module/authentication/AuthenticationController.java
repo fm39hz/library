@@ -1,10 +1,8 @@
 package com.huce.library.module.authentication;
 
 import com.huce.library.module.jwt.UserId;
-import com.huce.library.module.user.CustomUserDetails;
-import com.huce.library.module.user.UserRequestDto;
-import com.huce.library.module.user.UserResponseDto;
-import com.huce.library.module.user.UserService;
+import com.huce.library.module.user.*;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,5 +47,12 @@ public class AuthenticationController {
     @GetMapping("/user")
     public ResponseEntity<UserResponseDto> getUser(@UserId Long userId) {
         return ResponseEntity.ok().body(new UserResponseDto(((CustomUserDetails)userService.loadUserById(userId)).getUser()));
+    }
+
+    @DeleteMapping("/user/{id}")
+    @RolesAllowed(Roles.ADMIN)
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
     }
 }

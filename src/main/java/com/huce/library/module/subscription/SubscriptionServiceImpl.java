@@ -44,11 +44,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription.setStartDate(new Date());
         subscription.setPeriod(subscriptionDto.getPeriod());
         subscription.setStatus(subscriptionDto.getStatus());
-        user.setSubscription(subscription);
-        userRepository.save(user);
-        if (subscription.getPeriod() == null || Objects.equals(subscription.getStatus(), "pending")) {
+        if (Objects.equals(subscription.getStatus(), "pending") || subscription.getPeriod() <= 0) {
             subscription.setEndDate(subscription.getStartDate());
-            subscription.setPeriod(-1);
             return subscription;
         }
         subscription.setEndDate(calculateEndDate(subscription.getStartDate(), subscription.getPeriod()));
