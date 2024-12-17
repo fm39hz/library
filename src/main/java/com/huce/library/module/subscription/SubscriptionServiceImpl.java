@@ -147,5 +147,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public void deleteSubscription(Long id) {
         Subscription subscription = getSubscription(id);
         subscription.setStatus("cancelled");
+        subscriptionRepository.save(subscription);
     }
 }
