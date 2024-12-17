@@ -9,6 +9,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class SubscriptionResponseDto {
     private Long id;
+    private String name;
     private Long user;
     private Date startDate;
     private Date endDate;
@@ -21,6 +22,7 @@ public class SubscriptionResponseDto {
 
     public SubscriptionResponseDto(Subscription subscription) {
         setId(subscription.getId());
+        setName(SubscriptionFactory.getSubscriptionName(subscription));
         setUser(subscription.getUser().getId());
         setStartDate(subscription.getStartDate());
         setEndDate(subscription.getEndDate());
