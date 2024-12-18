@@ -28,7 +28,7 @@ CREATE TABLE `authors` (
   `age` int(11) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +77,8 @@ INSERT INTO `authors` VALUES
 (37,35,'Veronica Roth'),
 (38,52,'James Dashner'),
 (39,87,'Lois Lowry'),
-(40,76,'S.E. Hinton');
+(40,76,'S.E. Hinton'),
+(41,70,'Aldous Huxley');
 /*!40000 ALTER TABLE `authors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -98,7 +99,7 @@ CREATE TABLE `books` (
   PRIMARY KEY (`id`),
   KEY `FKfjixh2vym2cvfj3ufxj91jem7` (`author_id`),
   CONSTRAINT `FKfjixh2vym2cvfj3ufxj91jem7` FOREIGN KEY (`author_id`) REFERENCES `authors` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,57 +109,57 @@ CREATE TABLE `books` (
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
 INSERT INTO `books` VALUES
-(1,'A novel about the American Dream and the roaring twenties.','https://upload.wikimedia.org/wikipedia/en/f/f7/TheGreatGatsby_1925jacket.gif',12,'The Great Gatsby',1),
-(2,'A dystopian novel set in a totalitarian society.','https://upload.wikimedia.org/wikipedia/en/c/c3/1984first.jpg',0,'1984',2),
-(3,'A story of racial injustice in the Deep South.','https://upload.wikimedia.org/wikipedia/en/7/79/To_Kill_a_Mockingbird.JPG',13,'To Kill a Mockingbird',3),
-(4,'A classic romantic novel about manners and matrimonial machinations.','https://upload.wikimedia.org/wikipedia/en/0/0b/PrideAndPrejudiceTitlePage.jpg',8,'Pride and Prejudice',4),
-(5,'A coming-of-age story about teenage rebellion.','https://upload.wikimedia.org/wikipedia/en/3/32/Rye_catcher.jpg',0,'The Catcher in the Rye',5),
-(6,'A fantasy adventure about a hobbit on a quest.','https://upload.wikimedia.org/wikipedia/en/4/4a/TheHobbit_FirstEdition.jpg',17,'The Hobbit',6),
-(7,'A dystopian novel about a future where books are banned.','https://upload.wikimedia.org/wikipedia/en/d/dc/Fahrenheit_451_1st_ed_cover.jpg',8,'Fahrenheit 451',7),
-(8,'A novel about the obsessive quest for a giant whale.','https://upload.wikimedia.org/wikipedia/commons/4/41/Moby-Dick_FE_title_page.jpg',7,'Moby Dick',8),
-(9,'An epic novel set during the Napoleonic Wars.','https://upload.wikimedia.org/wikipedia/commons/a/af/War-and-peace-book-cover.jpg',4,'War and Peace',9),
-(10,'An ancient Greek epic poem about the hero Odysseus.','https://upload.wikimedia.org/wikipedia/commons/9/9c/Odyssey-circe.jpg',11,'The Odyssey',10),
-(11,'A psychological novel about crime and morality.','https://upload.wikimedia.org/wikipedia/en/8/86/Crimeandpunishmentcover.png',6,'Crime and Punishment',11),
-(12,'A philosophical novel about faith, doubt, and free will.','https://upload.wikimedia.org/wikipedia/en/8/8d/TheBrothersKaramazov.jpg',5,'The Brothers Karamazov',11),
-(13,'A dystopian novel about a technologically advanced future.','https://upload.wikimedia.org/wikipedia/en/6/62/BraveNewWorld_FirstEdition.jpg',12,'Brave New World',12),
-(14,'A gothic romance about an orphaned governess.','https://upload.wikimedia.org/wikipedia/en/9/9f/Jane_Eyre_title_page.jpg',7,'Jane Eyre',13),
-(15,'A tale of passion and revenge on the Yorkshire moors.','https://upload.wikimedia.org/wikipedia/en/1/11/Wuthering_Heights.jpg',8,'Wuthering Heights',14),
-(16,'An epic poem about the journey through the afterlife.','https://upload.wikimedia.org/wikipedia/commons/5/55/Divine_Comedy%2C_Cary%27s_translation%2C_The_Vision_of_Hell%2C_title_page.jpg',3,'The Divine Comedy',15),
-(17,'A coming-of-age story about wealth and poverty in Victorian England.','https://upload.wikimedia.org/wikipedia/en/3/32/GreatExpectations_FC.jpg',10,'Great Expectations',16),
-(18,'A novel about love and redemption in post-revolutionary France.','https://upload.wikimedia.org/wikipedia/en/6/6e/Les_Miserables_1862_-_Title_page.jpg',6,'Les Misérables',17),
-(19,'A novel about love and betrayal in Russian high society.','https://upload.wikimedia.org/wikipedia/en/7/7e/AnnaKareninaTitlePage.jpg',9,'Anna Karenina',9),
-(20,'A novel about the struggles of a family during the Great Depression.','https://upload.wikimedia.org/wikipedia/en/3/3d/TheGrapesOfWrath.jpg',12,'The Grapes of Wrath',18),
-(21,'An epic poem about the Trojan War.','https://upload.wikimedia.org/wikipedia/commons/3/3b/The_Iliad_of_Homer_-_Buckley_-_title_page.jpg',10,'The Iliad',10),
-(22,'A satirical novel about the absurdities of war.','https://upload.wikimedia.org/wikipedia/en/6/67/Catch22.jpg',7,'Catch-22',19),
-(23,'A story of friendship and redemption set in Afghanistan.','https://upload.wikimedia.org/wikipedia/en/6/6a/The_Kite_Runner.jpg',14,'The Kite Runner',20),
-(24,'A science fiction-infused anti-war novel.','https://upload.wikimedia.org/wikipedia/en/e/e6/Slaughterhouse-Five_1st_ed_cover.jpg',8,'Slaughterhouse-Five',21),
-(25,'A post-apocalyptic novel about survival and father-son bond.','https://upload.wikimedia.org/wikipedia/en/6/65/The-Road.jpg',3,'The Road',22),
-(26,'A philosophical novel about following one’s dreams.','https://upload.wikimedia.org/wikipedia/en/c/c4/TheAlchemist.jpg',11,'The Alchemist',23),
-(27,'A gothic novel introducing the iconic vampire Count Dracula.','https://upload.wikimedia.org/wikipedia/en/e/ea/Dracula1st.jpeg',9,'Dracula',24),
-(28,'A novel about the consequences of playing God.','https://upload.wikimedia.org/wikipedia/en/9/9b/Frankenstein_1818_edition_title_page.jpg',7,'Frankenstein',25),
-(29,'A novel about vanity and moral corruption.','https://upload.wikimedia.org/wikipedia/en/8/86/Thepictureofdoriangray.jpg',6,'The Picture of Dorian Gray',26),
-(30,'A horror novel set in a haunted hotel.','https://upload.wikimedia.org/wikipedia/en/4/4c/Shiningnovel.jpg',10,'The Shining',27),
-(31,'A post-apocalyptic horror/fantasy novel.','https://upload.wikimedia.org/wikipedia/en/5/5b/The_Stand_cover.jpg',4,'The Stand',27),
-(32,'A mystery thriller involving secret societies and religious history.','https://upload.wikimedia.org/wikipedia/en/6/6b/DaVinciCode.jpg',15,'The Da Vinci Code',28),
-(33,'A thriller involving a conspiracy within the Catholic Church.','https://upload.wikimedia.org/wikipedia/en/8/8f/AngelsAndDemons.jpg',13,'Angels & Demons',28),
-(34,'A mystery thriller about a journalist and a hacker.','https://upload.wikimedia.org/wikipedia/en/5/52/The_Girl_with_the_Dragon_Tattoo.jpg',11,'The Girl with the Dragon Tattoo',29),
-(35,'A psychological thriller about a missing woman.','https://upload.wikimedia.org/wikipedia/en/0/05/Gone_Girl_%28Flynn_novel%29.jpg',9,'Gone Girl',30),
-(36,'A novel about two teenagers dealing with cancer.','https://upload.wikimedia.org/wikipedia/en/4/44/The_Fault_in_Our_Stars.jpg',14,'The Fault in Our Stars',31),
-(37,'A philosophical novel about a boy stranded at sea with a tiger.','https://upload.wikimedia.org/wikipedia/en/1/1b/Life_of_Pi_cover.png',11,'Life of Pi',32),
-(38,'A novel narrated by Death, set in Nazi Germany.','https://upload.wikimedia.org/wikipedia/en/8/8e/The_Book_Thief_by_Markus_Zusak_book_cover.jpg',10,'The Book Thief',33),
-(39,'A historical novel about the life of a geisha in Japan.','https://upload.wikimedia.org/wikipedia/en/0/0f/MemoirsOfAGeisha.jpg',8,'Memoirs of a Geisha',34),
-(40,'A novel about African American maids in the 1960s South.','https://upload.wikimedia.org/wikipedia/en/8/8f/Thehelpbookcover.jpg',7,'The Help',35),
-(41,'A dystopian novel about a televised fight to the death.','https://upload.wikimedia.org/wikipedia/en/d/dc/The_Hunger_Games.jpg',16,'The Hunger Games',36),
-(42,'The second book in the Hunger Games series.','https://upload.wikimedia.org/wikipedia/en/4/42/Catching_Fire.jpg',14,'Catching Fire',36),
-(43,'The final book in the Hunger Games series.','https://upload.wikimedia.org/wikipedia/en/6/60/Mockingjay.JPG',13,'Mockingjay',36),
-(44,'A dystopian novel about a society divided into factions.','https://upload.wikimedia.org/wikipedia/en/d/d4/Divergent.jpg',12,'Divergent',37),
-(45,'The second book in the Divergent series.','https://upload.wikimedia.org/wikipedia/en/0/08/Insurgent_cover.jpg',11,'Insurgent',37),
-(46,'The final book in the Divergent series.','https://upload.wikimedia.org/wikipedia/en/1/16/Allegiant.jpg',10,'Allegiant',37),
-(47,'A dystopian novel about a group of teens in a maze.','https://upload.wikimedia.org/wikipedia/en/d/db/The_Maze_Runner_cover.png',9,'The Maze Runner',38),
-(48,'The second book in the Maze Runner series.','https://upload.wikimedia.org/wikipedia/en/9/92/The_Scorch_Trials_cover.jpg',8,'The Scorch Trials',38),
-(49,'The final book in the Maze Runner series.','https://upload.wikimedia.org/wikipedia/en/d/d5/The_Death_Cure.jpg',7,'The Death Cure',38),
-(50,'A dystopian novel about a society without memory.','https://upload.wikimedia.org/wikipedia/en/7/7b/The_Giver_first_edition_1993.jpg',6,'The Giver',39),
-(51,'A coming-of-age novel about teenage gangs.','https://upload.wikimedia.org/wikipedia/en/9/9e/TheOutsiders.jpg',5,'The Outsiders',40);
+(1,'A novel about the American Dream and the roaring twenties.','https://m.media-amazon.com/images/I/81h5-y42iGL._SL1500_.jpg',12,'The Great Gatsby',1),
+(2,'A dystopian novel set in a totalitarian society.','https://m.media-amazon.com/images/I/71z8EdFNwxL._SL1360_.jpg',0,'1984',2),
+(3,'To Kill a Mockingbird','https://m.media-amazon.com/images/I/81aY1lxk+9L._SL1500_.jpg',13,'To Kill a Mockingbird',3),
+(4,'A classic romantic novel about manners and matrimonial machinations.','https://m.media-amazon.com/images/I/31AxQViSTGL._SY445_SX342_.jpg',8,'Pride and Prejudice',4),
+(5,'A coming-of-age story about teenage rebellion.','https://m.media-amazon.com/images/I/71nXPGovoTL._SY466_.jpg',0,'The Catcher in the Rye',5),
+(6,'A fantasy adventure about a hobbit on a quest.','https://m.media-amazon.com/images/I/91Q00mYqCFL._SX342_.jpg',17,'The Hobbit',6),
+(7,'A dystopian novel about a future where books are banned.','https://m.media-amazon.com/images/I/71UCyTAt4hL._AC_UY327_FMwebp_QL65_.jpg',8,'Fahrenheit 451',7),
+(8,'A novel about the obsessive quest for a giant whale.','https://m.media-amazon.com/images/I/81XS2mY6qfL._AC_UL480_FMwebp_QL65_.jpg',7,'Moby Dick',8),
+(9,'An epic novel set during the Napoleonic Wars.','https://m.media-amazon.com/images/I/71eK3ri8ROL._AC_UL480_FMwebp_QL65_.jpg',4,'War and Peace',9),
+(10,'An ancient Greek epic poem about the hero Odysseus.','https://m.media-amazon.com/images/I/61cudQwiS3L._AC_UL480_FMwebp_QL65_.jpg',11,'The Odyssey',10),
+(11,'A psychological novel about crime and morality.','https://m.media-amazon.com/images/I/81vTpOYpwOL._AC_UL480_FMwebp_QL65_.jpg',6,'Crime and Punishment',11),
+(12,'A philosophical novel about faith, doubt, and free will.','https://m.media-amazon.com/images/I/71ohpQBLDyL._AC_UL480_FMwebp_QL65_.jpg',5,'The Brothers Karamazov',11),
+(13,'A dystopian novel about a technologically advanced future.','https://m.media-amazon.com/images/I/71c4HiVmNrL._AC_UY327_FMwebp_QL65_.jpg',12,'Brave New World',12),
+(14,'A gothic romance about an orphaned governess.','https://m.media-amazon.com/images/I/81t73Rsp6wL._AC_UY327_FMwebp_QL65_.jpg',7,'Jane Eyre',13),
+(15,'A tale of passion and revenge on the Yorkshire moors.','https://m.media-amazon.com/images/I/61CM-bYfT4S._AC_UL480_FMwebp_QL65_.jpg',8,'Wuthering Heights',14),
+(16,'An epic poem about the journey through the afterlife.','https://m.media-amazon.com/images/I/817Lm8PHG9L._AC_UY327_FMwebp_QL65_.jpg',3,'The Divine Comedy',15),
+(17,'A coming-of-age story about wealth and poverty in Victorian England.','https://m.media-amazon.com/images/I/91m4aHqEL3L._AC_UY327_FMwebp_QL65_.jpg',10,'Great Expectations',16),
+(18,'A novel about love and redemption in post-revolutionary France.','https://m.media-amazon.com/images/I/81e1NPAQJmL._AC_UY327_FMwebp_QL65_.jpg',6,'Les Misérables',17),
+(19,'A novel about love and betrayal in Russian high society.','https://m.media-amazon.com/images/I/71O3PTUA3vL._AC_UY327_FMwebp_QL65_.jpg',9,'Anna Karenina',9),
+(20,'A novel about the struggles of a family during the Great Depression.','https://m.media-amazon.com/images/I/51MNQ-0bL+S._AC_UY327_FMwebp_QL65_.jpg',12,'The Grapes of Wrath',18),
+(21,'An epic poem about the Trojan War.','https://m.media-amazon.com/images/I/91Bfhi-K2SL._AC_UL480_FMwebp_QL65_.jpg',10,'The Iliad',10),
+(22,'A satirical novel about the absurdities of war.','https://m.media-amazon.com/images/I/71PJ3u6gO2L._AC_UY327_FMwebp_QL65_.jpg',7,'Catch-22',19),
+(23,'A story of friendship and redemption set in Afghanistan.','https://m.media-amazon.com/images/I/81LVEH25iJL._AC_UY327_FMwebp_QL65_.jpg',14,'The Kite Runner',20),
+(24,'A science fiction-infused anti-war novel.','https://m.media-amazon.com/images/I/81NgzG3kU-L._AC_UY327_FMwebp_QL65_.jpg',8,'Slaughterhouse-Five',21),
+(25,'A post-apocalyptic novel about survival and father-son bond.','https://m.media-amazon.com/images/I/711WYzePJeL._AC_UY327_FMwebp_QL65_.jpg',3,'The Road',22),
+(26,'A philosophical novel about following one’s dreams.','https://m.media-amazon.com/images/I/71zHDXu1TaL._AC_UY327_FMwebp_QL65_.jpg',11,'The Alchemist',23),
+(27,'A gothic novel introducing the iconic vampire Count Dracula.','https://m.media-amazon.com/images/I/61TqVMQ6jKL._AC_UY327_FMwebp_QL65_.jpg',9,'Dracula',24),
+(28,'A novel about the consequences of playing God.','https://m.media-amazon.com/images/I/81z7E0uWdtL._AC_UY327_FMwebp_QL65_.jpg',7,'Frankenstein',25),
+(29,'A novel about vanity and moral corruption.','https://m.media-amazon.com/images/I/61vSNJFuq5S._AC_UL480_FMwebp_QL65_.jpg',6,'The Picture of Dorian Gray',26),
+(30,'A horror novel set in a haunted hotel.','https://m.media-amazon.com/images/I/91G7TjLTU3L._AC_UY327_FMwebp_QL65_.jpg',10,'The Shining',27),
+(31,'A post-apocalyptic horror/fantasy novel.','https://m.media-amazon.com/images/I/81n5Qg246YL._AC_UY327_FMwebp_QL65_.jpg',4,'The Stand',27),
+(32,'A mystery thriller involving secret societies and religious history.','https://m.media-amazon.com/images/I/71wngh3UDSL._AC_UY327_FMwebp_QL65_.jpg',15,'The Da Vinci Code',28),
+(33,'A thriller involving a conspiracy within the Catholic Church.','https://m.media-amazon.com/images/I/91eSpp085nL._AC_UY327_FMwebp_QL65_.jpg',13,'Angels & Demons',28),
+(34,'A mystery thriller about a journalist and a hacker.','https://m.media-amazon.com/images/I/71K-euhWB5L._AC_UY327_FMwebp_QL65_.jpg',11,'The Girl with the Dragon Tattoo',29),
+(35,'A psychological thriller about a missing woman.','https://m.media-amazon.com/images/I/61XJBJDl6PL._AC_UY327_FMwebp_QL65_.jpg',9,'Gone Girl',30),
+(36,'A novel about two teenagers dealing with cancer.','https://m.media-amazon.com/images/I/918av7yayqL._AC_UY327_FMwebp_QL65_.jpg',14,'The Fault in Our Stars',31),
+(37,'A philosophical novel about a boy stranded at sea with a tiger.','https://m.media-amazon.com/images/I/81A8M75eOuL._AC_UY327_FMwebp_QL65_.jpg',11,'Life of Pi',32),
+(38,'A novel narrated by Death, set in Nazi Germany.','https://m.media-amazon.com/images/I/914cHl9v7oL._AC_UY327_FMwebp_QL65_.jpg',10,'The Book Thief',33),
+(39,'A historical novel about the life of a geisha in Japan.','https://m.media-amazon.com/images/I/91Ckqk1TY7L._AC_UY327_FMwebp_QL65_.jpg',8,'Memoirs of a Geisha',34),
+(40,'A novel about African American maids in the 1960s South.','https://m.media-amazon.com/images/I/81rWPtpxHbL._AC_UY327_FMwebp_QL65_.jpg',7,'The Help',35),
+(41,'A dystopian novel about a televised fight to the death.','https://m.media-amazon.com/images/I/91IMwiZCOHL._AC_UY327_FMwebp_QL65_.jpg',16,'The Hunger Games',36),
+(42,'The second book in the Hunger Games series.','https://m.media-amazon.com/images/I/81SKNqIndVL._AC_UY327_FMwebp_QL65_.jpg',14,'Catching Fire',36),
+(43,'The final book in the Hunger Games series.','https://m.media-amazon.com/images/I/81sjORNm-fL._AC_UY327_FMwebp_QL65_.jpg',13,'Mockingjay',36),
+(44,'A dystopian novel about a society divided into factions.','https://m.media-amazon.com/images/I/91OeMEuXPzL._AC_UY327_FMwebp_QL65_.jpg',12,'Divergent',37),
+(45,'The second book in the Divergent series.','https://m.media-amazon.com/images/I/81R3-Ay6o8L._AC_UY327_FMwebp_QL65_.jpg',11,'Insurgent',37),
+(46,'The final book in the Divergent series.','https://m.media-amazon.com/images/I/51crKNKl6zL._AC_UY327_FMwebp_QL65_.jpg',10,'Allegiant',37),
+(47,'A dystopian novel about a group of teens in a maze.','https://m.media-amazon.com/images/I/91Jra1QAMPL._AC_UY327_FMwebp_QL65_.jpg',9,'The Maze Runner',38),
+(48,'The second book in the Maze Runner series.','https://m.media-amazon.com/images/I/812eEL8dzeL._AC_UY327_FMwebp_QL65_.jpg',8,'The Scorch Trials',38),
+(49,'The final book in the Maze Runner series.','https://m.media-amazon.com/images/I/91vaqmbaF4L._AC_UY327_FMwebp_QL65_.jpg',7,'The Death Cure',38),
+(50,'A dystopian novel about a society without memory.','https://m.media-amazon.com/images/I/81Yq5WKWfSL._AC_UY327_FMwebp_QL65_.jpg',6,'The Giver',39),
+(51,'A coming-of-age novel about teenage gangs.','https://m.media-amazon.com/images/I/71Bg39CmhoL._AC_UY327_FMwebp_QL65_.jpg',5,'The Outsiders',40);
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,7 +290,7 @@ CREATE TABLE `records` (
   KEY `FKi8l5qr4lyjrbumllf1177xe45` (`subscription_id`),
   CONSTRAINT `FKi8l5qr4lyjrbumllf1177xe45` FOREIGN KEY (`subscription_id`) REFERENCES `subscriptions` (`id`),
   CONSTRAINT `FKnke55n81hhwtj7p25hswydt52` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -308,17 +309,7 @@ INSERT INTO `records` VALUES
 (7,'2025-03-13 13:16:32.155000','2024-12-13 13:16:32.155000','renting',2,1),
 (8,'2025-03-13 13:16:34.840000','2024-12-13 13:16:34.840000','renting',2,1),
 (9,'2025-03-13 13:17:01.968000','2024-12-13 13:17:01.968000','renting',2,1),
-(10,'2025-03-13 13:17:30.528000','2024-12-13 13:17:30.528000','renting',2,1),
-(11,'2025-03-13 13:17:45.439000','2024-12-13 13:17:45.439000','renting',2,1),
-(12,'2025-03-13 13:17:54.062000','2024-12-13 13:17:54.062000','renting',3,1),
-(13,'2025-03-13 13:21:08.146000','2024-12-13 13:21:08.146000','renting',25,1),
-(14,'2025-03-13 13:21:20.998000','2024-12-13 13:21:20.998000','renting',13,1),
-(15,'2025-03-15 13:08:31.589000','2024-12-15 13:08:31.589000','renting',6,1),
-(16,'2025-03-15 13:08:54.906000','2024-12-15 13:08:54.906000','renting',4,1),
-(17,'2025-03-15 13:09:08.673000','2024-12-15 13:09:08.673000','renting',4,1),
-(18,'2025-03-15 13:09:32.687000','2024-12-15 13:09:32.687000','renting',34,1),
-(19,'2025-03-15 13:11:32.626000','2024-12-15 13:11:32.626000','renting',6,1),
-(20,'2025-03-15 13:11:36.496000','2024-12-15 13:11:36.496000','renting',6,1);
+(10,'2025-03-13 13:17:30.528000','2024-12-13 13:17:30.528000','renting',2,1);
 /*!40000 ALTER TABLE `records` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -343,7 +334,7 @@ CREATE TABLE `subscriptions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UKl3ommhd1n0tu0k2va0cbp87qe` (`user_id`),
   CONSTRAINT `FKhro52ohfqfbay9774bev0qinr` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -355,69 +346,6 @@ LOCK TABLES `subscriptions` WRITE;
 INSERT INTO `subscriptions` VALUES
 (1,'2025-03-01 12:21:05.155000',3,'2024-12-01 12:21:05.155000','active',1,500,15000,0.25,0);
 /*!40000 ALTER TABLE `subscriptions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `suppliers`
---
-
-DROP TABLE IF EXISTS `suppliers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `suppliers` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `phone` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `suppliers`
---
-
-LOCK TABLES `suppliers` WRITE;
-/*!40000 ALTER TABLE `suppliers` DISABLE KEYS */;
-INSERT INTO `suppliers` VALUES
-(1,'123-456-7890'),
-(2,'987-654-3210');
-/*!40000 ALTER TABLE `suppliers` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `suppliers_books`
---
-
-DROP TABLE IF EXISTS `suppliers_books`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `suppliers_books` (
-  `supplier_id` bigint(20) NOT NULL,
-  `book_id` bigint(20) NOT NULL,
-  KEY `FK7j8kbfytrvtjw7kb7syl8huv4` (`book_id`),
-  KEY `FKowr7f71w9glkavpkoy6i5hgct` (`supplier_id`),
-  CONSTRAINT `FK7j8kbfytrvtjw7kb7syl8huv4` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
-  CONSTRAINT `FKowr7f71w9glkavpkoy6i5hgct` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `suppliers_books`
---
-
-LOCK TABLES `suppliers_books` WRITE;
-/*!40000 ALTER TABLE `suppliers_books` DISABLE KEYS */;
-INSERT INTO `suppliers_books` VALUES
-(1,1),
-(2,1),
-(1,2),
-(2,2),
-(2,1),
-(2,2),
-(2,1),
-(1,2),
-(1,1),
-(2,2);
-/*!40000 ALTER TABLE `suppliers_books` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -433,11 +361,15 @@ CREATE TABLE `users` (
   `role` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `subscription_id` bigint(20) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UKr43af9ap4edm43mmtq01oddj6` (`username`),
   UNIQUE KEY `UKns8vi4ouq0uoo25pse5gos0bn` (`subscription_id`),
+  UNIQUE KEY `UK6dotkott2kjsp8vw4d0m25fb7` (`email`),
+  UNIQUE KEY `UKdu5v5sr43g5bfnji4vb8hg5s3` (`phone`),
   CONSTRAINT `FKfwx079xww5uyfbpi9u8gwam34` FOREIGN KEY (`subscription_id`) REFERENCES `subscriptions` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -447,7 +379,7 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
-(1,'$2a$10$LDVQIxRV4wSVfMQKnUKFZeLSZz4tMEkMkM45MD9nVKL0R7gdkt2b2','ADMIN','admin',1);
+(1,'$2a$10$LDVQIxRV4wSVfMQKnUKFZeLSZz4tMEkMkM45MD9nVKL0R7gdkt2b2','ADMIN','admin',1,'admin@gmail.com','0123456789');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -460,4 +392,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2024-12-15 17:38:31
+-- Dump completed on 2024-12-18 11:59:28
