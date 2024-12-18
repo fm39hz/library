@@ -1,6 +1,7 @@
 services:
-  app:
+  backend:
     image: fm39hz/library:latest
+    container_name: backend
     networks:
       - library_service
     ports:
@@ -10,10 +11,11 @@ services:
       SPRING_DATASOURCE_USERNAME: "library"
       SPRING_DATASOURCE_PASSWORD: "@VeryStr1ctP@ssvvord"
     depends_on:
-      - mariadb
+      - database
 
-  mariadb:
+  database:
     image: mariadb:latest
+    container_name: mariadb
     networks:
       - library_service
     ports:
