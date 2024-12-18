@@ -46,7 +46,7 @@ public class AuthenticationController {
 
     @GetMapping("/user")
     public ResponseEntity<UserResponseDto> getUser(@UserId Long userId) {
-        return ResponseEntity.ok().body(new UserResponseDto(((CustomUserDetails)userService.loadUserById(userId)).getUser()));
+        return ResponseEntity.ok().body(new UserResponseDto(((CustomUserDetails) userService.loadUserById(userId)).getUser()));
     }
 
     @DeleteMapping("/user/{id}")

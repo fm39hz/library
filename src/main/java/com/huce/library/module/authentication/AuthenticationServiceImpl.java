@@ -2,7 +2,6 @@ package com.huce.library.module.authentication;
 
 import com.huce.library.module.jwt.JwtTokenProvider;
 import com.huce.library.module.user.CustomUserDetails;
-import com.huce.library.module.user.User;
 import com.huce.library.module.user.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
