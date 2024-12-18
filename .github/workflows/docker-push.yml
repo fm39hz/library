@@ -23,9 +23,9 @@ jobs:
       - name: Make Maven Wrapper executable
         if: contains(matrix.os, 'win') == false
         run: chmod +x ./mvnw
-#
-#      - name: Build image
-#        run: ./mvnw clean install -DskipTests
+      #
+      #      - name: Build image
+      #        run: ./mvnw clean install -DskipTests
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
