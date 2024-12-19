@@ -101,9 +101,9 @@ public class SubscriptionController {
         if (subscription.getRemainingFee() <= 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        String paymentDetail = user.getUsername() + "%20pay%20remaining fee";
+        String paymentDetail = user.getUsername() + " pay remaining fee";
         Invoice savedInvoice = invoiceService.createInvoice(subscription, subscription.getRemainingFee(), paymentDetail);
-        return ResponseEntity.ok().body(paymentService.createPaymentUrl(savedInvoice.getId(), subscription.getRemainingFee(), paymentDetail));
+        return ResponseEntity.ok().body(paymentService.createPaymentUrl(savedInvoice.getId(), subscription.getRemainingFee(), paymentDetail.replaceAll(" ", "+")));
     }
 
     @GetMapping("/renew")
@@ -113,9 +113,9 @@ public class SubscriptionController {
         if (subscription.getEndDate().compareTo(new Date()) > 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        String paymentDetail = user.getUsername() + "%20renew%20subscription";
+        String paymentDetail = user.getUsername() + " renew subscription";
         Invoice savedInvoice = invoiceService.createInvoice(subscription, 200000f, paymentDetail);
-        return ResponseEntity.ok().body(paymentService.createPaymentUrl(savedInvoice.getId(), 200000, paymentDetail));
+        return ResponseEntity.ok().body(paymentService.createPaymentUrl(savedInvoice.getId(), 200000, paymentDetail.replaceAll(" ", "+")));
     }
 
     @GetMapping("/success")
@@ -130,5 +130,15 @@ public class SubscriptionController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(url));
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+    }
+
+    @GetMapping("/complete-renew")
+    public ResponseEntity<SubscriptionResponseDto> completeRenew(@UserId Long userId) {
+        return ResponseEntity.ok().body(new SubscriptionResponseDto(subscriptionService.completeRenewSubscription(userId)));
+    }
+
+    @GetMapping("/complete-pay-fee")
+    public ResponseEntity<SubscriptionResponseDto> completePayFee(@UserId Long userId) {
+        return ResponseEntity.ok().body(new SubscriptionResponseDto(subscriptionService.completePayFee(userId)));
     }
 }

@@ -145,6 +145,21 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public Subscription completeRenewSubscription(Long userId) {
+        Subscription subscription = subscriptionRepository.findByUser_Id(userId);
+        subscription.setStatus("renewed");
+        subscription.setEndDate(calculateEndDate(new Date(), subscription.getPeriod()));
+        return subscriptionRepository.save(subscription);
+    }
+
+    @Override
+    public Subscription completePayFee(Long userId) {
+        Subscription subscription = subscriptionRepository.findByUser_Id(userId);
+        subscription.setRemainingFee(0f);
+        return subscriptionRepository.save(subscription);
+    }
+
+    @Override
     public void deleteSubscription(Long id) {
         Subscription subscription = getSubscription(id);
         subscription.setStatus("cancelled");

@@ -23,4 +23,8 @@ public interface SubscriptionService {
     void completeReturnBook(Long invoiceId);
 
     void deleteSubscription(Long id);
+
+    Subscription completeRenewSubscription(Long userId);
+
+    Subscription completePayFee(Long userId);
 }
