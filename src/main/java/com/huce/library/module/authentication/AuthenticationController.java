@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
@@ -47,6 +50,17 @@ public class AuthenticationController {
     @GetMapping("/user")
     public ResponseEntity<UserResponseDto> getUser(@UserId Long userId) {
         return ResponseEntity.ok().body(new UserResponseDto(((CustomUserDetails) userService.loadUserById(userId)).getUser()));
+    }
+
+    @GetMapping("/users")
+    @RolesAllowed(Roles.ADMIN)
+    public ResponseEntity<List<UserResponseDto>> getUsers() {
+        List<User> users = userService.getAllUsers();
+        List<UserResponseDto> dtos = new ArrayList<>();
+        for (User user : users) {
+            dtos.add(new UserResponseDto(user));
+        }
+        return ResponseEntity.ok().body(dtos);
     }
 
     @DeleteMapping("/user/{id}")
