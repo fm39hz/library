@@ -110,9 +110,9 @@ public class SubscriptionController {
     public ResponseEntity<PaymentResponseDto> renewSubscription(@UserId Long userId) throws UnsupportedEncodingException {
         CustomUserDetails user = (CustomUserDetails) userService.loadUserById(userId);
         Subscription subscription = user.getUser().getSubscription();
-//        if (subscription.getEndDate().compareTo(new Date()) > 0) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
+        if (subscription.getEndDate().compareTo(new Date()) > 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         String paymentDetail = user.getUsername() + "%20renew%20subscription";
         Invoice savedInvoice = invoiceService.createInvoice(subscription, 200000f, paymentDetail);
         return ResponseEntity.ok().body(paymentService.createPaymentUrl(savedInvoice.getId(), 200000, paymentDetail));
@@ -125,7 +125,7 @@ public class SubscriptionController {
         if (!Objects.equals(invoice.getStatus(), PaymentStatus.SUCCESS)) {
             url = frontendUrl + "/error";
         } else {
-            url = String.format(frontendUrl + "/success?id=%d&status=%s&amount=%f&description=%s", invoice.getId(), invoice.getStatus(), invoice.getAmount() / 100, invoice.getDescription());
+            url = String.format(frontendUrl + "/success?id=%d&status=%s&amount=%f&description=%s", invoice.getId(), invoice.getStatus(), invoice.getAmount(), invoice.getDescription());
         }
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(url));
