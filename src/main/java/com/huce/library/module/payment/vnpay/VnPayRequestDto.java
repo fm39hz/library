@@ -6,6 +6,7 @@ import org.apache.commons.codec.digest.HmacUtils;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -31,14 +32,16 @@ public class VnPayRequestDto {
         vnp_Params.put("vnp_ReturnUrl", config.getReturnUrl());
         vnp_Params.put("vnp_IpAddr", config.getIpAddr());
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String vnpCreateDate = formatter.format(cld.getTime());
-
-        vnp_Params.put("vnp_CreateDate", vnpCreateDate);
-        cld.add(Calendar.MINUTE, 15);
-        String vnpExpireDate = formatter.format(cld.getTime());
-        vnp_Params.put("vnp_ExpireDate", vnpExpireDate);
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+            String vnpCreateDate = formatter.format(cld.getTime());
+            vnp_Params.put("vnp_CreateDate", formatter.format(formatter.parse(vnpCreateDate)));
+            cld.add(Calendar.MINUTE, 15);
+            String vnpExpireDate = formatter.format(cld.getTime());
+            vnp_Params.put("vnp_ExpireDate", formatter.format(formatter.parse(vnpExpireDate)));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
         List<String> fieldNames = new ArrayList<>(vnp_Params.keySet());
         Collections.sort(fieldNames);
