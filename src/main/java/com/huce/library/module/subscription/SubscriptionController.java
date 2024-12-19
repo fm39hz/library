@@ -89,7 +89,7 @@ public class SubscriptionController {
         return ResponseEntity.ok().body(new SubscriptionResponseDto(subscriptionService.proceedReturnBook(bookId, user.getUser().getId())));
     }
 
-    @GetMapping("/pay-remaining-fee/")
+    @GetMapping("/pay-remaining-fee")
     public ResponseEntity<PaymentResponseDto> payRemainingFee(@UserId Long userId) throws UnsupportedEncodingException {
         CustomUserDetails user = (CustomUserDetails) userService.loadUserById(userId);
         Subscription subscription = user.getUser().getSubscription();
