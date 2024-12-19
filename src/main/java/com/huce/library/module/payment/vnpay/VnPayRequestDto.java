@@ -18,11 +18,11 @@ public class VnPayRequestDto {
 
     @Override
     public String toString() {
-        Map<String, String> vnp_Params = new HashMap<>();
+        Map<String, Object> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", config.getVersion());
         vnp_Params.put("vnp_Command", config.getCommand());
         vnp_Params.put("vnp_TmnCode", config.getTmnCode());
-        vnp_Params.put("vnp_Amount", String.valueOf(amount * 100));
+        vnp_Params.put("vnp_Amount", (int) (amount * 100));
         vnp_Params.put("vnp_CurrCode", config.getCurrCode());
         vnp_Params.put("vnp_TxnRef", String.valueOf(id));
         vnp_Params.put("vnp_OrderInfo", paymentInfo);
@@ -47,7 +47,7 @@ public class VnPayRequestDto {
         Iterator<String> itr = fieldNames.iterator();
         while (itr.hasNext()) {
             String fieldName = itr.next();
-            String fieldValue = vnp_Params.get(fieldName);
+            String fieldValue = vnp_Params.get(fieldName).toString();
             if ((fieldValue != null) && (!fieldValue.isEmpty())) {
                 //Build hash data
                 hashData.append(fieldName);

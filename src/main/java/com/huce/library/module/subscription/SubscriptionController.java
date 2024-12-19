@@ -93,6 +93,9 @@ public class SubscriptionController {
     public ResponseEntity<PaymentResponseDto> payRemainingFee(@UserId Long userId) throws UnsupportedEncodingException {
         CustomUserDetails user = (CustomUserDetails) userService.loadUserById(userId);
         Subscription subscription = user.getUser().getSubscription();
+        if (subscription.getRemainingFee() <= 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         String paymentDetail = user.getUsername() + " pay remaining fee";
         return ResponseEntity.ok().body(paymentService.createPaymentUrl(subscription.getId(), subscription.getRemainingFee(), paymentDetail));
     }
@@ -101,7 +104,7 @@ public class SubscriptionController {
     public ResponseEntity<PaymentResponseDto> renewSubscription(@UserId Long userId) throws UnsupportedEncodingException {
         CustomUserDetails user = (CustomUserDetails) userService.loadUserById(userId);
         Subscription subscription = user.getUser().getSubscription();
-        String paymentDetail = user.getUsername() + "renew subscription";
+        String paymentDetail = user.getUsername() + " renew subscription";
         return ResponseEntity.ok().body(paymentService.createPaymentUrl(subscription.getId(), 200000, paymentDetail));
     }
 }
