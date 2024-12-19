@@ -62,6 +62,7 @@ public class SecurityConfig {
         http
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
@@ -73,10 +74,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/publisher/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/subscription/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                        .requestMatchers("api/v1/subscription/**").hasAuthority(Roles.USER)
+                        .requestMatchers("api/v1/subscription/**").hasAnyRole(Roles.ADMIN, Roles.USER)
                         .anyRequest().hasAuthority(Roles.ADMIN)
                 )
-                .httpBasic(withDefaults())
                 .addFilterBefore(new JwtAuthenticationFilter(userService, jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
