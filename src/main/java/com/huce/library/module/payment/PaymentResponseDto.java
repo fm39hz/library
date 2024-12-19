@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PaymentResponseDto {
-    private Long paymentId;
+    private Long invoiceId;
     private Float amount;
     private String paymentInfo;
     private String status;

@@ -1,10 +1,9 @@
 package com.huce.library.module.subscription;
 
+import com.huce.library.module.invoice.Invoice;
+import com.huce.library.module.invoice.InvoiceService;
 import com.huce.library.module.jwt.UserId;
-import com.huce.library.module.payment.PaymentMethods;
-import com.huce.library.module.payment.PaymentResponseDto;
-import com.huce.library.module.payment.PaymentService;
-import com.huce.library.module.payment.PaymentServiceFactory;
+import com.huce.library.module.payment.*;
 import com.huce.library.module.record.Record;
 import com.huce.library.module.record.RecordRequestDto;
 import com.huce.library.module.record.RecordResponseDto;
@@ -13,13 +12,17 @@ import com.huce.library.module.user.Roles;
 import com.huce.library.module.user.User;
 import com.huce.library.module.user.UserService;
 import jakarta.annotation.security.RolesAllowed;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/subscription")
@@ -27,10 +30,14 @@ public class SubscriptionController {
     private final UserService userService;
     private final PaymentService paymentService;
     private final SubscriptionService subscriptionService;
+    private final InvoiceService invoiceService;
+    @Value("${vnp.feUrl}")
+    private String frontendUrl;
 
-    public SubscriptionController(SubscriptionService subscriptionService, UserService userService) {
+    public SubscriptionController(SubscriptionService subscriptionService, UserService userService, InvoiceService invoiceService) {
         this.subscriptionService = subscriptionService;
         this.userService = userService;
+        this.invoiceService = invoiceService;
         this.paymentService = PaymentServiceFactory.getService(PaymentMethods.VNPay);
     }
 
@@ -97,7 +104,8 @@ public class SubscriptionController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         String paymentDetail = user.getUsername() + " pay remaining fee";
-        return ResponseEntity.ok().body(paymentService.createPaymentUrl(subscription.getId(), subscription.getRemainingFee(), paymentDetail));
+        Invoice savedInvoice = invoiceService.createInvoice(subscription, subscription.getRemainingFee(), paymentDetail);
+        return ResponseEntity.ok().body(paymentService.createPaymentUrl(savedInvoice.getId(), subscription.getRemainingFee(), paymentDetail));
     }
 
     @GetMapping("/renew")
@@ -105,6 +113,20 @@ public class SubscriptionController {
         CustomUserDetails user = (CustomUserDetails) userService.loadUserById(userId);
         Subscription subscription = user.getUser().getSubscription();
         String paymentDetail = user.getUsername() + " renew subscription";
-        return ResponseEntity.ok().body(paymentService.createPaymentUrl(subscription.getId(), 200000, paymentDetail));
+        Invoice savedInvoice = invoiceService.createInvoice(subscription, 200000f, paymentDetail);
+        return ResponseEntity.ok().body(paymentService.createPaymentUrl(savedInvoice.getId(), 200000, paymentDetail));
+    }
+
+    @GetMapping("/success")
+    public RedirectView success(@RequestParam Map<String, String> fields) {
+        Invoice invoice = paymentService.processPayment(fields);
+        RedirectView redirectView = new RedirectView();
+        if (!Objects.equals(invoice.getStatus(), PaymentStatus.SUCCESS)) {
+            redirectView.setUrl(frontendUrl + "/error");
+        } else {
+            String redirectUrl = String.format(frontendUrl + "/success?id=%d&status=%s&amount=%f&description=%s&createdDate=%s", invoice.getId(), invoice.getStatus(), invoice.getAmount() / 100, invoice.getDescription(), invoice.getCreateTime());
+            redirectView.setUrl(redirectUrl);
+        }
+        return redirectView;
     }
 }
