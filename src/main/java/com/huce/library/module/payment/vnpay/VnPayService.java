@@ -45,7 +45,7 @@ public class VnPayService implements PaymentService {
     @Override
     public Invoice processPayment(Map<String, String> fields) {
         String vnp_SecureHash = fields.get("vnp_SecureHash");
-        String vnp_Status = fields.get("vnp_SecureHash");
+        String vnp_Status = fields.get("vnp_TransactionStatus");
         Long id = Long.valueOf(fields.get("vnp_TxnRef"));
         if (invoiceRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Cannot find invoice");
