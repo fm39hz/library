@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserResponseDto {
     private Long id;
-    private String username;
+    private String name;
     private String email;
     private String phone;
     private String role;
@@ -15,7 +15,7 @@ public class UserResponseDto {
 
     public UserResponseDto(User user) {
         setId(user.getId());
-        setUsername(user.getUsername());
+        setName(user.getUsername());
         setEmail(user.getEmail());
         setPhone(user.getPhone());
         setRole(user.getRole());
