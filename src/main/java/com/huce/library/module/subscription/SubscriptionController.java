@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 @RequestMapping("/subscription")
@@ -104,7 +101,7 @@ public class SubscriptionController {
         if (subscription.getRemainingFee() <= 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        String paymentDetail = user.getUsername() + " pay remaining fee";
+        String paymentDetail = user.getUsername() + "%20pay%20remaining fee";
         Invoice savedInvoice = invoiceService.createInvoice(subscription, subscription.getRemainingFee(), paymentDetail);
         return ResponseEntity.ok().body(paymentService.createPaymentUrl(savedInvoice.getId(), subscription.getRemainingFee(), paymentDetail));
     }
@@ -113,7 +110,10 @@ public class SubscriptionController {
     public ResponseEntity<PaymentResponseDto> renewSubscription(@UserId Long userId) throws UnsupportedEncodingException {
         CustomUserDetails user = (CustomUserDetails) userService.loadUserById(userId);
         Subscription subscription = user.getUser().getSubscription();
-        String paymentDetail = user.getUsername() + " renew subscription";
+//        if (subscription.getEndDate().compareTo(new Date()) > 0) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+        String paymentDetail = user.getUsername() + "%20renew%20subscription";
         Invoice savedInvoice = invoiceService.createInvoice(subscription, 200000f, paymentDetail);
         return ResponseEntity.ok().body(paymentService.createPaymentUrl(savedInvoice.getId(), 200000, paymentDetail));
     }
@@ -125,7 +125,7 @@ public class SubscriptionController {
         if (!Objects.equals(invoice.getStatus(), PaymentStatus.SUCCESS)) {
             url = frontendUrl + "/error";
         } else {
-            url = String.format(frontendUrl + "/success?id=%d&status=%s&amount=%f&description=%s&createdDate=%s", invoice.getId(), invoice.getStatus(), invoice.getAmount() / 100, invoice.getDescription(), invoice.getCreateTime());
+            url = String.format(frontendUrl + "/success?id=%d&status=%s&amount=%f&description=%s", invoice.getId(), invoice.getStatus(), invoice.getAmount() / 100, invoice.getDescription());
         }
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(url));
