@@ -17,10 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class VnPayService implements PaymentService {
@@ -48,6 +45,7 @@ public class VnPayService implements PaymentService {
     @Override
     public Invoice processPayment(Map<String, String> fields) {
         String vnp_SecureHash = fields.get("vnp_SecureHash");
+        String vnp_Status = fields.get("vnp_SecureHash");
         Long id = Long.valueOf(fields.get("vnp_TxnRef"));
         if (invoiceRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Cannot find invoice");
@@ -69,7 +67,7 @@ public class VnPayService implements PaymentService {
         String computedHash = new HmacUtils("HmacSHA512", config.getHashSecret()).hmacHex(hashData.toString());
         switch (invoice.getStatus()) {
             case PaymentStatus.WAITING:
-                invoice.setStatus(!computedHash.equals(vnp_SecureHash) ? PaymentStatus.SUCCESS : PaymentStatus.FAIL);
+                invoice.setStatus(!computedHash.equals(vnp_SecureHash) && Objects.equals(vnp_Status, "00") ? PaymentStatus.SUCCESS : PaymentStatus.FAIL);
                 break;
             case PaymentStatus.FAIL:
             case PaymentStatus.SUCCESS:
