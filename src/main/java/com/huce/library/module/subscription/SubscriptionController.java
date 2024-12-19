@@ -13,12 +13,13 @@ import com.huce.library.module.user.User;
 import com.huce.library.module.user.UserService;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -118,15 +119,16 @@ public class SubscriptionController {
     }
 
     @GetMapping("/success")
-    public RedirectView success(@RequestParam Map<String, String> fields) {
+    public ResponseEntity<Void> success(@RequestParam Map<String, String> fields) {
         Invoice invoice = paymentService.processPayment(fields);
-        RedirectView redirectView = new RedirectView();
+        String url;
         if (!Objects.equals(invoice.getStatus(), PaymentStatus.SUCCESS)) {
-            redirectView.setUrl(frontendUrl + "/error");
+            url = frontendUrl + "/error";
         } else {
-            String redirectUrl = String.format(frontendUrl + "/success?id=%d&status=%s&amount=%f&description=%s&createdDate=%s", invoice.getId(), invoice.getStatus(), invoice.getAmount() / 100, invoice.getDescription(), invoice.getCreateTime());
-            redirectView.setUrl(redirectUrl);
+            url = String.format(frontendUrl + "/success?id=%d&status=%s&amount=%f&description=%s&createdDate=%s", invoice.getId(), invoice.getStatus(), invoice.getAmount() / 100, invoice.getDescription(), invoice.getCreateTime());
         }
-        return redirectView;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(url));
+        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 }
